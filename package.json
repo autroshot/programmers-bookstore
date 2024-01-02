@@ -1,0 +1,28 @@
+{
+    "name": "programmers-bookstore",
+    "version": "0.0.1",
+    "description": "프로그래머스 데브코스의 두 번째 프로젝트로, Express.js 기반의 REST API를 구현합니다.",
+    "main": "dist/app.js",
+    "scripts": {
+        "build": "npx tsc",
+        "start": "node dist/app.js",
+        "dev": "nodemon app.ts"
+    },
+    "author": "이민철",
+    "license": "MIT",
+    "dependencies": {
+        "dotenv": "^16.3.1",
+        "express": "^4.18.2"
+    },
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/node": "^20.10.6",
+        "@typescript-eslint/eslint-plugin": "^6.17.0",
+        "@typescript-eslint/parser": "^6.17.0",
+        "eslint": "^8.56.0",
+        "nodemon": "^3.0.2",
+        "prettier": "3.1.1",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.3.3"
+    }
+}
