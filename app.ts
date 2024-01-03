@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import express from 'express';
+import { join as joinController } from './controllers/user';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,3 +14,4 @@ app.listen(PORT, () => {
 app.get('/', (req, res) => {
     res.send('My Server');
 });
+app.post('/users', joinController);
