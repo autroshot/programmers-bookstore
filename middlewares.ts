@@ -4,7 +4,6 @@ import { ValidationError } from './errors';
 
 const validationResultHandler: RequestHandler = (req, _res, next) => {
     const result = validationResult(req);
-
     if (result.isEmpty()) {
         next();
         return;
