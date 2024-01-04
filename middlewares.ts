@@ -2,7 +2,7 @@ import { RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 import { ValidationError } from './errors';
 
-const handleValidationResult: RequestHandler = (req, _res, next) => {
+const validationResultHandler: RequestHandler = (req, _res, next) => {
     const result = validationResult(req);
 
     if (result.isEmpty()) {
@@ -14,4 +14,4 @@ const handleValidationResult: RequestHandler = (req, _res, next) => {
     return;
 };
 
-export { handleValidationResult };
+export { validationResultHandler };

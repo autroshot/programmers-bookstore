@@ -3,7 +3,7 @@ import express, { ErrorRequestHandler } from 'express';
 import { checkSchema } from 'express-validator';
 import { join as joinController } from './controllers/user';
 import { ValidationError } from './errors';
-import { handleValidationResult } from './middlewares';
+import { validationResultHandler } from './middlewares';
 import { form } from './validators/user';
 
 const app = express();
@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 app.post(
     '/users',
     checkSchema(form, ['body']),
-    handleValidationResult,
+    validationResultHandler,
     joinController
 );
 
