@@ -10,8 +10,8 @@ const join: RequestHandler = expressAsyncHandler(async (req, res) => {
     };
 
     const result = await pool.execute(
-        'INSERT INTO `programmers_bookstore`.`users` (`email`, `password`) VALUES (?, ?)',
-        [email, password]
+        'INSERT INTO `programmers_bookstore`.`users` (`email`, `password`) VALUES (:email, :password)',
+        { email, password }
     );
     console.log(result);
 
