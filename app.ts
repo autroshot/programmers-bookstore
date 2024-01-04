@@ -1,9 +1,12 @@
 import 'dotenv/config';
-import express, { ErrorRequestHandler } from 'express';
-import { checkSchema, validationResult } from 'express-validator';
+import express from 'express';
+import { checkSchema } from 'express-validator';
 import { join as joinController } from './controllers/user';
-import { ValidationError } from './errors';
-import { validationResultHandler } from './middlewares';
+import {
+    errorHandler,
+    validationErrorHandler,
+    validationResultHandler,
+} from './middlewares';
 import { form } from './validators/user';
 
 const app = express();
@@ -25,21 +28,5 @@ app.post(
     validationResultHandler,
     joinController
 );
-
-const validationErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    if (err instanceof ValidationError) {
-        const result = validationResult(req);
-        console.error(result.array());
-
-        res.status(400).end();
-        return;
-    }
-    next(err);
-    return;
-};
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-    console.error(err);
-    res.status(500).end();
-};
 
 app.use(validationErrorHandler, errorHandler);
