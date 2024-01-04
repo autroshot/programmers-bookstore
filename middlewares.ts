@@ -9,7 +9,6 @@ const validationResultHandler: RequestHandler = (req, _res, next) => {
         next();
         return;
     }
-    console.error(result.array());
     next(new ValidationError());
     return;
 };
