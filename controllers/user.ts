@@ -12,10 +12,10 @@ const join: RequestHandler = expressAsyncHandler(async (req, res) => {
     };
 
     try {
-        const result = await pool.execute(
-            'INSERT INTO `users` (`email`, `password`) VALUES (:email, :password)',
-            { email, password }
-        );
+        const sql =
+            'INSERT INTO `users` (`email`, `password`) VALUES (:email, :password)';
+        const values = { email, password };
+        const result = await pool.execute(sql, values);
         console.log(result);
 
         res.status(201).end();
@@ -37,10 +37,8 @@ const update: RequestHandler = expressAsyncHandler(async (req, res) => {
     try {
         const sql =
             'UPDATE `users` SET `password` = :password WHERE (`email` = :email)';
-        const result = await pool.execute<ResultSetHeader>(sql, {
-            email,
-            password,
-        });
+        const values = { email, password };
+        const result = await pool.execute<ResultSetHeader>(sql, values);
         console.log(result);
 
         if (result[0].affectedRows >= 1) {
