@@ -1,3 +1,4 @@
+import { FieldPacket, ResultSetHeader } from 'mysql2';
 import { DBError } from '../errors';
 import pool from '../maria-db';
 
@@ -12,6 +13,19 @@ async function create({ email, password }: createForm): Promise<void> {
     const values = { email, password };
     const result = await pool.execute(sql, values);
     console.log(result);
+}
+
+async function update({
+    email,
+    password,
+}: createForm): Promise<[ResultSetHeader, FieldPacket[]]> {
+    const sql =
+        'UPDATE `users` SET `password` = :password WHERE (`email` = :email)';
+    const values = { email, password };
+    const result = await pool.execute<ResultSetHeader>(sql, values);
+    console.log(result);
+
+    return result;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,5 +72,6 @@ interface MySQLError extends Error {
 }
 
 const wrappedCreate = DBErrorWrapper(create);
+const wrappedUpdate = DBErrorWrapper(update);
 
-export { wrappedCreate as create };
+export { wrappedCreate as create, wrappedUpdate as update };
