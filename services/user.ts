@@ -12,8 +12,8 @@ const create = DBErrorWrapper(
         const sql =
             'INSERT INTO `users` (`email`, `password`) VALUES (:email, :password)';
         const values = { email, password };
-        const result = await pool.execute(sql, values);
-        console.log(result);
+
+        await pool.execute(sql, values);
     }
 );
 
@@ -25,10 +25,8 @@ const update = DBErrorWrapper(
         const sql =
             'UPDATE `users` SET `password` = :password WHERE (`email` = :email)';
         const values = { email, password };
-        const result = await pool.execute<ResultSetHeader>(sql, values);
-        console.log(result);
 
-        return result;
+        return await pool.execute<ResultSetHeader>(sql, values);
     }
 );
 
