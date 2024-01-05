@@ -17,10 +17,10 @@ async function create({ email, password }: createForm): Promise<void> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function DBErrorWrapper<Func extends (...args: any[]) => Promise<any>>(
     service: Func
-): (...args: Parameters<Func>) => Promise<ReturnType<Func>> {
+): (...args: Parameters<Func>) => Promise<Awaited<ReturnType<Func>>> {
     const wrappedService = async (
         ...args: Parameters<Func>
-    ): Promise<ReturnType<Func>> => {
+    ): Promise<Awaited<ReturnType<Func>>> => {
         try {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const result = await service(...args);
