@@ -1,5 +1,6 @@
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
+import { StatusCodes } from 'http-status-codes';
 import { DBError, ValidationError } from './errors';
 
 const validationResultHandler: RequestHandler = (req, _res, next) => {
@@ -17,7 +18,7 @@ const validationErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
         const result = validationResult(req);
         console.error(result.array());
 
-        res.status(400).end();
+        res.status(StatusCodes.BAD_REQUEST).end();
         return;
     }
     next(err);
@@ -28,7 +29,7 @@ const DBErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof DBError) {
         switch (err.errorNo) {
             case 1062: {
-                res.status(409).end();
+                res.status(StatusCodes.CONFLICT).end();
                 return;
             }
             default: {
@@ -43,7 +44,7 @@ const DBErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     console.error(err);
-    res.status(500).end();
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
 };
 
 export {
