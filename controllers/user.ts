@@ -1,7 +1,10 @@
 import { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
-import { create, update as updateService } from '../services/user';
+import {
+    create as createService,
+    update as updateService,
+} from '../services/user';
 
 const join: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { email, password } = matchedData(req) as {
@@ -9,7 +12,7 @@ const join: RequestHandler = expressAsyncHandler(async (req, res) => {
         password: string;
     };
 
-    await create({ email, password });
+    await createService({ email, password });
     res.status(201).end();
 });
 
