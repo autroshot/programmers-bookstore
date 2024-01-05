@@ -4,6 +4,7 @@ import { matchedData } from 'express-validator';
 import { ResultSetHeader } from 'mysql2';
 import { DBError } from '../errors';
 import pool from '../maria-db';
+import { create } from '../services/user';
 
 const join: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { email, password } = matchedData(req) as {
@@ -11,21 +12,8 @@ const join: RequestHandler = expressAsyncHandler(async (req, res) => {
         password: string;
     };
 
-    try {
-        const sql =
-            'INSERT INTO `users` (`email`, `password`) VALUES (:email, :password)';
-        const values = { email, password };
-        const result = await pool.execute(sql, values);
-        console.log(result);
-
-        res.status(201).end();
-    } catch (err) {
-        if (assertMySQLError(err)) {
-            console.error(err);
-            throw new DBError(err.errno);
-        }
-        throw err;
-    }
+    await create({ email, password });
+    res.status(201).end();
 });
 
 const update: RequestHandler = expressAsyncHandler(async (req, res) => {
