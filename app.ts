@@ -3,6 +3,7 @@ import express from 'express';
 import { checkSchema } from 'express-validator';
 import { join as joinController } from './controllers/user';
 import {
+    DBErrorHandler,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
@@ -29,4 +30,4 @@ app.post(
     joinController
 );
 
-app.use(validationErrorHandler, errorHandler);
+app.use(validationErrorHandler, DBErrorHandler, errorHandler);
