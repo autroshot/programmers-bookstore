@@ -20,7 +20,7 @@ function DBErrorWrapper<Func extends (...args: any[]) => Promise<any>>(
 ): (...args: Parameters<Func>) => Promise<ReturnType<Func>> {
     const wrappedService = async (
         ...args: Parameters<Func>
-    ): Promise<Awaited<ReturnType<Func>>> => {
+    ): Promise<ReturnType<Func>> => {
         try {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const result = await service(...args);
