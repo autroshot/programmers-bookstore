@@ -1,6 +1,7 @@
 import { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
+import { ResultSetHeader } from 'mysql2';
 import { DBError } from '../errors';
 import pool from '../maria-db';
 
@@ -18,6 +19,36 @@ const join: RequestHandler = expressAsyncHandler(async (req, res) => {
         console.log(result);
 
         res.status(201).end();
+    } catch (err) {
+        if (assertMySQLError(err)) {
+            console.error(err);
+            throw new DBError(err.errno);
+        }
+        throw err;
+    }
+});
+
+const update: RequestHandler = expressAsyncHandler(async (req, res) => {
+    const { email, password } = matchedData(req) as {
+        email: string;
+        password: string;
+    };
+
+    try {
+        const sql =
+            'UPDATE `programmers_bookstore`.`users` SET `password` = :password WHERE (`email` = :email)';
+        const result = await pool.execute<ResultSetHeader>(sql, {
+            email,
+            password,
+        });
+        console.log(result);
+
+        if (result[0].affectedRows >= 1) {
+            res.status(204).end();
+            return;
+        }
+        res.status(422).end();
+        return;
     } catch (err) {
         if (assertMySQLError(err)) {
             console.error(err);
@@ -46,4 +77,4 @@ interface MySQLError extends Error {
     sqlMessage: string;
 }
 
-export { join };
+export { join, update };

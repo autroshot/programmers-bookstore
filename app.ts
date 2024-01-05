@@ -1,7 +1,10 @@
 import 'dotenv/config';
 import express from 'express';
 import { checkSchema } from 'express-validator';
-import { join as joinController } from './controllers/user';
+import {
+    join as joinController,
+    update as updateController,
+} from './controllers/user';
 import {
     DBErrorHandler,
     errorHandler,
@@ -28,6 +31,12 @@ app.post(
     checkSchema(form, ['body']),
     validationResultHandler,
     joinController
+);
+app.patch(
+    '/user',
+    checkSchema(form, ['body']),
+    validationResultHandler,
+    updateController
 );
 
 app.use(validationErrorHandler, DBErrorHandler, errorHandler);
