@@ -23,6 +23,7 @@ const validationErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     next(err);
     return;
 };
+
 const DBErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     if (err instanceof DBError) {
         switch (err.errorNo) {
@@ -39,6 +40,7 @@ const DBErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     next(err);
     return;
 };
+
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     console.error(err);
     res.status(500).end();
