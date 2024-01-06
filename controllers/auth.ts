@@ -2,8 +2,8 @@ import { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
-import jwt from 'jsonwebtoken';
 import { findOne as findOneService } from '../services/user';
+import { createToken } from '../utils/auth';
 
 const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { email, password } = matchedData(req) as {
@@ -17,12 +17,7 @@ const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
         res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
         return;
     }
-    if (typeof process.env.JWT_SECRET_KEY !== 'string')
-        throw Error('필요한 환경 변수가 없습니다.');
-    const token = jwt.sign({ email }, process.env.JWT_SECRET_KEY, {
-        expiresIn: '5m',
-        issuer: process.env.JWT_ISSUER,
-    });
+    const token = createToken({ email }, '5m');
 
     res.cookie('access_token', token, {
         maxAge: 5 * 60 * 1000,
