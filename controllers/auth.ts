@@ -9,12 +9,14 @@ const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
         email: string;
         password: string;
     };
+
     const user = await findOneService(email);
-    if (user?.password === password) {
-        res.status(200).end();
+
+    if (user?.password !== password) {
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
         return;
     }
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
+    res.status(200).end();
     return;
 });
 
