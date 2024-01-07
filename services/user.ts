@@ -25,7 +25,7 @@ const findOne = DBErrorWrapper(
             'SELECT `id`, `email`, `password`, `salt` FROM `users` WHERE (`email` = :email)';
         const values = { email };
 
-        const [users] = await pool.execute<User[]>(sql, values);
+        const [users] = await pool.execute<Array<User>>(sql, values);
         return users[0];
     }
 );
@@ -35,7 +35,7 @@ const update = DBErrorWrapper(
         email,
         password,
         salt,
-    }: createForm): Promise<[ResultSetHeader, FieldPacket[]]> => {
+    }: createForm): Promise<[ResultSetHeader, Array<FieldPacket>]> => {
         const sql =
             'UPDATE `users` SET `password` = :password, `salt` = :salt WHERE (`email` = :email)';
         const values = { email, password, salt };
