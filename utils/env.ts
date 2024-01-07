@@ -1,4 +1,4 @@
-function getEnv(key: string): string {
+function getEnvValue(key: string): string {
     const value = process.env[key];
 
     if (value === undefined) {
@@ -7,4 +7,4 @@ function getEnv(key: string): string {
     return value;
 }
 
-export { getEnv };
+export { getEnvValue };
