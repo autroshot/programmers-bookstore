@@ -38,10 +38,6 @@ const update = DBErrorWrapper(
     }
 );
 
-interface createForm {
-    email: string;
-    password: string;
-    salt: string;
-}
+type createForm = Pick<User, 'email' | 'password' | 'salt'>;
 
 export { create, findOne, update };
