@@ -1,4 +1,4 @@
-import { DBError } from '../errors';
+import { DBError } from '@errors';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function DBErrorWrapper<Func extends (...args: any[]) => Promise<any>>(

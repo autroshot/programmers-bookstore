@@ -1,18 +1,19 @@
 import 'dotenv/config';
-import express from 'express';
-import { checkSchema } from 'express-validator';
+
 import {
     join as joinController,
     update as updateController,
-} from './controllers/user';
+} from '@controllers/user';
 import {
     DBErrorHandler,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
-} from './middlewares';
-import authRouter from './routers/auth';
-import { form as formSchema } from './validators/user';
+} from '@middlewares';
+import authRouter from '@routers/auth';
+import { form as formSchema } from '@validators/user';
+import express from 'express';
+import { checkSchema } from 'express-validator';
 
 const app = express();
 const PORT = process.env.PORT || 3000;

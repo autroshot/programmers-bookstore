@@ -1,14 +1,14 @@
-import express from 'express';
-import { checkSchema } from 'express-validator';
 import {
     basic as basicController,
     email as emailController,
-} from '../controllers/auth';
-import { validationResultHandler } from '../middlewares';
+} from '@controllers/auth';
+import { validationResultHandler } from '@middlewares';
 import {
     email as eamilParamSchema,
     form as formSchema,
-} from '../validators/user';
+} from '@validators/user';
+import express from 'express';
+import { checkSchema } from 'express-validator';
 const router = express.Router();
 
 router

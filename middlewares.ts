@@ -1,7 +1,7 @@
+import { DBError, ValidationError } from '@errors';
 import { ErrorRequestHandler, RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
-import { DBError, ValidationError } from './errors';
 
 const validationResultHandler: RequestHandler = (req, _res, next) => {
     const result = validationResult(req);

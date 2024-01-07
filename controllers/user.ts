@@ -1,11 +1,11 @@
+import {
+    create as createService,
+    update as updateService,
+} from '@services/user';
 import { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
-import {
-    create as createService,
-    update as updateService,
-} from '../services/user';
 
 const join: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { email, password } = matchedData(req) as {
