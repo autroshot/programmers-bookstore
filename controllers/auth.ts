@@ -1,7 +1,7 @@
 import { findOne as findOneService } from '@services/user';
 import { createToken } from '@utils/auth';
 import { hashPassword } from '@utils/encryption';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';

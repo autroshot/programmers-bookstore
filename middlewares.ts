@@ -1,5 +1,5 @@
 import { DBError, ValidationError } from '@errors';
-import { ErrorRequestHandler, RequestHandler } from 'express';
+import type { ErrorRequestHandler, RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 

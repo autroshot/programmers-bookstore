@@ -1,7 +1,7 @@
 import pool from '@maria-db';
-import { User } from '@models/user';
+import type { User } from '@models/user';
 import { DBErrorWrapper } from '@utils/db';
-import { FieldPacket, ResultSetHeader } from 'mysql2';
+import type { FieldPacket, ResultSetHeader } from 'mysql2';
 
 const create = DBErrorWrapper(
     async ({ email, password, salt }: createForm): Promise<void> => {
