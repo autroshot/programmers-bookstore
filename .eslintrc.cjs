@@ -19,5 +19,12 @@ module.exports = {
                 default: 'generic',
             },
         ],
+        '@typescript-eslint/consistent-type-exports': [
+            'error',
+            {
+                fixMixedExportsWithInlineTypeSpecifier: true,
+            },
+        ],
+        '@typescript-eslint/consistent-type-imports': 'error',
     },
 };
