@@ -1,15 +1,16 @@
 import jwt from 'jsonwebtoken';
+import { getEnvValue } from './env';
 
 function createToken(
     payload: string | object | Buffer,
     expiresIn: jwt.SignOptions['expiresIn']
 ) {
-    if (typeof process.env.JWT_SECRET_KEY !== 'string')
-        throw Error('필요한 환경 변수가 없습니다.');
+    const SECRET_KEY = getEnvValue('JWT_SECRET_KEY');
+    const ISSUER = getEnvValue('JWT_ISSUER');
 
-    return jwt.sign(payload, process.env.JWT_SECRET_KEY, {
+    return jwt.sign(payload, SECRET_KEY, {
         expiresIn: expiresIn,
-        issuer: process.env.JWT_ISSUER,
+        issuer: ISSUER,
     });
 }
 
