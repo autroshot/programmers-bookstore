@@ -3,7 +3,7 @@ import {
     update as updateService,
 } from '@services/user';
 import { createSalt, hashPassword } from '@utils/encryption';
-import { RequestHandler } from 'express';
+import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';

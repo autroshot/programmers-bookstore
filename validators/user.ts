@@ -1,4 +1,4 @@
-import { ParamSchema, Schema } from 'express-validator';
+import type { ParamSchema, Schema } from 'express-validator';
 
 const email: ParamSchema = { trim: true, notEmpty: true, isEmail: true };
 const password: ParamSchema = {

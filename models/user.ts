@@ -1,4 +1,4 @@
-import { RowDataPacket } from 'mysql2';
+import type { RowDataPacket } from 'mysql2';
 
 interface User extends RowDataPacket {
     id: number;
