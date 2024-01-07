@@ -1,7 +1,7 @@
 import { DBError } from '@errors';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function DBErrorWrapper<Func extends (...args: any[]) => Promise<any>>(
+function DBErrorWrapper<Func extends (...args: Array<any>) => Promise<any>>(
     service: Func
 ): (...args: Parameters<Func>) => Promise<Awaited<ReturnType<Func>>> {
     const wrappedService = async (
