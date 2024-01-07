@@ -6,13 +6,14 @@ import { FieldPacket, ResultSetHeader } from 'mysql2';
 interface createForm {
     email: string;
     password: string;
+    salt: string;
 }
 
 const create = DBErrorWrapper(
-    async ({ email, password }: createForm): Promise<void> => {
+    async ({ email, password, salt }: createForm): Promise<void> => {
         const sql =
-            'INSERT INTO `users` (`email`, `password`) VALUES (:email, :password)';
-        const values = { email, password };
+            'INSERT INTO `users` (`email`, `password`, `salt`) VALUES (:email, :password, :salt)';
+        const values = { email, password, salt };
 
         await pool.execute(sql, values);
     }
@@ -21,7 +22,7 @@ const create = DBErrorWrapper(
 const findOne = DBErrorWrapper(
     async (email: User['email']): Promise<User | undefined> => {
         const sql =
-            'SELECT `id`, `email`, `password` FROM `users` WHERE (`email` = :email)';
+            'SELECT `id`, `email`, `password`, `salt` FROM `users` WHERE (`email` = :email)';
         const values = { email };
 
         const [users] = await pool.execute<User[]>(sql, values);
@@ -33,10 +34,11 @@ const update = DBErrorWrapper(
     async ({
         email,
         password,
+        salt,
     }: createForm): Promise<[ResultSetHeader, FieldPacket[]]> => {
         const sql =
-            'UPDATE `users` SET `password` = :password WHERE (`email` = :email)';
-        const values = { email, password };
+            'UPDATE `users` SET `password` = :password, `salt` = :salt WHERE (`email` = :email)';
+        const values = { email, password, salt };
 
         return await pool.execute<ResultSetHeader>(sql, values);
     }
