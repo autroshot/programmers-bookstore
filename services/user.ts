@@ -22,7 +22,7 @@ const create = DBErrorWrapper(
 const findOne = DBErrorWrapper(
     async (email: User['email']): Promise<User | undefined> => {
         const sql =
-            'SELECT `id`, `email`, `password` FROM `users` WHERE (`email` = :email)';
+            'SELECT `id`, `email`, `password`, `salt` FROM `users` WHERE (`email` = :email)';
         const values = { email };
 
         const [users] = await pool.execute<User[]>(sql, values);

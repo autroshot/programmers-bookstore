@@ -1,5 +1,6 @@
 import { findOne as findOneService } from '@services/user';
 import { createToken } from '@utils/auth';
+import { hashPassword } from '@utils/encryption';
 import { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
@@ -15,7 +16,13 @@ const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
 
     const user = await findOneService(email);
 
-    if (user?.password !== password) {
+    if (user === undefined) {
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
+        return;
+    }
+
+    const hashedInputPassword = hashPassword(password, user.salt);
+    if (hashedInputPassword !== user.password) {
         res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
         return;
     }
