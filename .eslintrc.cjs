@@ -4,7 +4,7 @@ module.exports = {
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended-type-checked',
     ],
-    plugins: ['@typescript-eslint'],
+    plugins: ['@typescript-eslint', 'import'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         project: true,
