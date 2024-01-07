@@ -9,4 +9,4 @@ const password: ParamSchema = {
 
 const form: Schema = { email, password };
 
-export { form };
+export { email, form };

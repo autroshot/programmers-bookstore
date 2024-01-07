@@ -30,8 +30,26 @@ const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-const email: RequestHandler = expressAsyncHandler((req, res) => {
-    res.status(200).json('email auth');
+const email: RequestHandler = expressAsyncHandler(async (req, res) => {
+    const { email } = matchedData(req) as {
+        email: string;
+    };
+
+    const user = await findOneService(email);
+
+    if (user === undefined) {
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
+        return;
+    }
+    const token = createToken({ email }, '5m');
+
+    res.cookie(ACCESS_TOKEN, token, {
+        maxAge: 5 * 60 * 1000,
+        httpOnly: true,
+    })
+        .status(StatusCodes.OK)
+        .end();
+    return;
 });
 
 export { basic, email };

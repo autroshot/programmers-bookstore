@@ -5,7 +5,7 @@ import {
     email as emailController,
 } from '../controllers/auth';
 import { validationResultHandler } from '../middlewares';
-import { form } from '../validators/user';
+import { email, form } from '../validators/user';
 const router = express.Router();
 
 router
@@ -15,6 +15,12 @@ router
         validationResultHandler,
         basicController
     );
-router.route('/email').post(emailController);
+router
+    .route('/email')
+    .post(
+        checkSchema({ email }, ['body']),
+        validationResultHandler,
+        emailController
+    );
 
 export default router;
