@@ -3,12 +3,6 @@ import { User } from '@models/user';
 import { DBErrorWrapper } from '@utils/db';
 import { FieldPacket, ResultSetHeader } from 'mysql2';
 
-interface createForm {
-    email: string;
-    password: string;
-    salt: string;
-}
-
 const create = DBErrorWrapper(
     async ({ email, password, salt }: createForm): Promise<void> => {
         const sql =
@@ -43,5 +37,11 @@ const update = DBErrorWrapper(
         return await pool.execute<ResultSetHeader>(sql, values);
     }
 );
+
+interface createForm {
+    email: string;
+    password: string;
+    salt: string;
+}
 
 export { create, findOne, update };
