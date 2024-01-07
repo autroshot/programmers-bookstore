@@ -13,5 +13,11 @@ module.exports = {
     root: true,
     rules: {
         '@typescript-eslint/no-unused-vars': ['error', { args: 'none' }],
+        '@typescript-eslint/array-type': [
+            'error',
+            {
+                default: 'generic',
+            },
+        ],
     },
 };
