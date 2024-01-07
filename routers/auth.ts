@@ -5,20 +5,23 @@ import {
     email as emailController,
 } from '../controllers/auth';
 import { validationResultHandler } from '../middlewares';
-import { email, form } from '../validators/user';
+import {
+    email as eamilParamSchema,
+    form as formSchema,
+} from '../validators/user';
 const router = express.Router();
 
 router
     .route('/basic')
     .post(
-        checkSchema(form, ['body']),
+        checkSchema(formSchema, ['body']),
         validationResultHandler,
         basicController
     );
 router
     .route('/email')
     .post(
-        checkSchema({ email }, ['body']),
+        checkSchema({ email: eamilParamSchema }, ['body']),
         validationResultHandler,
         emailController
     );

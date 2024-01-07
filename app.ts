@@ -12,7 +12,7 @@ import {
     validationResultHandler,
 } from './middlewares';
 import authRouter from './routers/auth';
-import { form } from './validators/user';
+import { form as formSchema } from './validators/user';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,13 +29,13 @@ app.get('/', (req, res) => {
 
 app.post(
     '/users',
-    checkSchema(form, ['body']),
+    checkSchema(formSchema, ['body']),
     validationResultHandler,
     joinController
 );
 app.patch(
     '/user',
-    checkSchema(form, ['body']),
+    checkSchema(formSchema, ['body']),
     validationResultHandler,
     updateController
 );
