@@ -11,6 +11,7 @@ import {
     validationErrorHandler,
     validationResultHandler,
 } from './middlewares';
+import authRouter from './routers/auth';
 import { form } from './validators/user';
 
 const app = express();
@@ -38,5 +39,7 @@ app.patch(
     validationResultHandler,
     updateController
 );
+
+app.use('/auth', authRouter);
 
 app.use(validationErrorHandler, DBErrorHandler, errorHandler);
