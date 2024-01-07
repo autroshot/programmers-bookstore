@@ -3,7 +3,7 @@ import { ErrorRequestHandler, RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
-const validationResultHandler: RequestHandler = (req, _res, next) => {
+const validationResultHandler: RequestHandler = (req, res, next) => {
     const result = validationResult(req);
     if (result.isEmpty()) {
         next();
