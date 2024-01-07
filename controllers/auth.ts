@@ -1,9 +1,9 @@
+import { findOne as findOneService } from '@services/user';
+import { createToken } from '@utils/auth';
 import { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
-import { findOne as findOneService } from '../services/user';
-import { createToken } from '../utils/auth';
 
 const ACCESS_TOKEN = 'access_token';
 
