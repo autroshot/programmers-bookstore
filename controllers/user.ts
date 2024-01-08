@@ -29,17 +29,18 @@ const update: RequestHandler = expressAsyncHandler(async (req, res) => {
 
     const salt = createSalt();
     const hashedPassword = hashPassword(password, salt);
-    const result = await updateService({
+    const isSuccess = await updateService({
         email,
         password: hashedPassword,
         salt,
     });
 
-    if (result[0].affectedRows >= 1) {
-        res.status(StatusCodes.NO_CONTENT).end();
+    if (!isSuccess) {
+        res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
         return;
     }
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
+    res.status(StatusCodes.NO_CONTENT).end();
+    return;
 });
 
 export { join, update };

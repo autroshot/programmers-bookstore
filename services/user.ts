@@ -1,7 +1,7 @@
 import pool from '@maria-db';
 import type { User } from '@models/user';
 import { DBErrorWrapper } from '@utils/db';
-import type { FieldPacket, ResultSetHeader } from 'mysql2';
+import type { ResultSetHeader } from 'mysql2';
 
 const create = DBErrorWrapper(
     async ({ email, password, salt }: createForm): Promise<void> => {
@@ -24,17 +24,21 @@ const findOne = DBErrorWrapper(
     }
 );
 
+/**
+ * 업데이트가 성공하면 `true`, 실패하면 `false`를 반환한다.
+ */
 const update = DBErrorWrapper(
-    async ({
-        email,
-        password,
-        salt,
-    }: createForm): Promise<[ResultSetHeader, Array<FieldPacket>]> => {
+    async ({ email, password, salt }: createForm): Promise<boolean> => {
         const sql =
             'UPDATE `users` SET `password` = :password, `salt` = :salt WHERE (`email` = :email)';
         const values = { email, password, salt };
 
-        return await pool.execute<ResultSetHeader>(sql, values);
+        const [resultSetHeader] = await pool.execute<ResultSetHeader>(
+            sql,
+            values
+        );
+        if (resultSetHeader.affectedRows === 0) return false;
+        return true;
     }
 );
 
