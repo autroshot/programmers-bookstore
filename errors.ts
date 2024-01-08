@@ -1,3 +1,10 @@
+class AuthError extends Error {
+    constructor() {
+        super();
+        this.name = 'AuthError';
+    }
+}
+
 class ValidationError extends Error {
     constructor() {
         super();
@@ -15,4 +22,4 @@ class DBError extends Error {
     }
 }
 
-export { DBError, ValidationError };
+export { AuthError, DBError, ValidationError };
