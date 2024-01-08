@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN_KEY } from '@@constants';
 import { AuthError, DBError, ValidationError } from '@errors';
 import { verifyToken } from '@utils/auth';
 import type { ErrorRequestHandler, RequestHandler } from 'express';
@@ -6,7 +7,7 @@ import { StatusCodes } from 'http-status-codes';
 
 const verifyAuth: RequestHandler = (req, res, next) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-    const token = req.cookies?.access_token;
+    const token = req.cookies?.[ACCESS_TOKEN_KEY];
     if (typeof token !== 'string') throw new AuthError();
 
     let payload;
