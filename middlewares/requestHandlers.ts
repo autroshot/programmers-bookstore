@@ -1,5 +1,9 @@
 import { ACCESS_TOKEN_KEY } from '@@constants';
-import { AuthError, AuthorizationError, ValidationError } from '@errors';
+import {
+    AuthenticationError,
+    AuthorizationError,
+    ValidationError,
+} from '@errors';
 import { verifyToken } from '@utils/auth';
 import type { RequestHandler } from 'express';
 import { matchedData, validationResult } from 'express-validator';
@@ -7,19 +11,19 @@ import { matchedData, validationResult } from 'express-validator';
 const authenticate: RequestHandler = (req, res, next) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const token = req.cookies?.[ACCESS_TOKEN_KEY];
-    if (typeof token !== 'string') throw new AuthError();
+    if (typeof token !== 'string') throw new AuthenticationError();
 
     let payload;
     try {
         payload = verifyToken(token);
     } catch (err) {
         if (err instanceof Error) {
-            throw new AuthError(err.message);
+            throw new AuthenticationError(err.message);
         }
         throw err;
     }
-    if (typeof payload === 'string') throw new AuthError();
-    if (typeof payload?.email !== 'string') throw new AuthError();
+    if (typeof payload === 'string') throw new AuthenticationError();
+    if (typeof payload?.email !== 'string') throw new AuthenticationError();
 
     const email = payload.email;
     req.authenticatedEmail = email;

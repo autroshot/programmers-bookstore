@@ -1,5 +1,5 @@
 import {
-    AuthError,
+    AuthenticationError,
     AuthorizationError,
     DBError,
     ValidationError,
@@ -14,7 +14,7 @@ const authenticationErrorHandler: ErrorRequestHandler = (
     res,
     next
 ) => {
-    if (err instanceof AuthError) {
+    if (err instanceof AuthenticationError) {
         console.error(err);
         if (err.message.length !== 0) {
             console.error(err.message);
