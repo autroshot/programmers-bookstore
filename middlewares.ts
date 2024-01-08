@@ -26,7 +26,12 @@ const verifyAuthentication: RequestHandler = (req, res, next) => {
     return;
 };
 
-const authErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+const authenticationErrorHandler: ErrorRequestHandler = (
+    err,
+    req,
+    res,
+    next
+) => {
     if (err instanceof AuthError) {
         console.error(err);
         if (err.message.length !== 0) {
@@ -86,7 +91,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 export {
     DBErrorHandler,
-    authErrorHandler,
+    authenticationErrorHandler,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,

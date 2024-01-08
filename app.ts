@@ -6,7 +6,7 @@ import {
 } from '@controllers/user';
 import {
     DBErrorHandler,
-    authErrorHandler,
+    authenticationErrorHandler,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
@@ -48,4 +48,9 @@ app.patch(
 
 app.use('/auth', authRouter);
 
-app.use(authErrorHandler, validationErrorHandler, DBErrorHandler, errorHandler);
+app.use(
+    authenticationErrorHandler,
+    validationErrorHandler,
+    DBErrorHandler,
+    errorHandler
+);
