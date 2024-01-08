@@ -22,6 +22,8 @@ const verifyAuthentication: RequestHandler = (req, res, next) => {
     if (typeof payload === 'string') throw new AuthError();
     if (typeof payload?.email !== 'string') throw new AuthError();
 
+    const email = payload.email;
+    req.authenticatedEmail = email;
     next();
     return;
 };
