@@ -9,6 +9,7 @@ import {
 } from '@validators/user';
 import express from 'express';
 import { checkSchema } from 'express-validator';
+
 const router = express.Router();
 
 router
