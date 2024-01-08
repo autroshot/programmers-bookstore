@@ -14,4 +14,11 @@ function createToken(
     });
 }
 
-export { createToken };
+function verifyToken(token: string) {
+    const SECRET_KEY = getEnvValue('JWT_SECRET_KEY');
+    const ISSUER = getEnvValue('JWT_ISSUER');
+
+    return jwt.verify(token, SECRET_KEY, { issuer: ISSUER });
+}
+
+export { createToken, verifyToken };

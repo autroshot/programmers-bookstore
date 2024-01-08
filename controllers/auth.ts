@@ -1,3 +1,4 @@
+import { ACCESS_TOKEN_KEY } from '@@constants';
 import { findOne as findOneService } from '@services/user';
 import { createToken } from '@utils/auth';
 import { hashPassword } from '@utils/encryption';
@@ -5,8 +6,6 @@ import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
-
-const ACCESS_TOKEN = 'access_token';
 
 const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { email, password } = matchedData(req) as {
@@ -28,7 +27,7 @@ const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
     }
     const token = createToken({ email }, '5m');
 
-    res.cookie(ACCESS_TOKEN, token, {
+    res.cookie(ACCESS_TOKEN_KEY, token, {
         maxAge: 5 * 60 * 1000,
         httpOnly: true,
     })
@@ -50,7 +49,7 @@ const email: RequestHandler = expressAsyncHandler(async (req, res) => {
     }
     const token = createToken({ email }, '5m');
 
-    res.cookie(ACCESS_TOKEN, token, {
+    res.cookie(ACCESS_TOKEN_KEY, token, {
         maxAge: 5 * 60 * 1000,
         httpOnly: true,
     })

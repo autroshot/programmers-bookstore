@@ -1,3 +1,19 @@
+class AuthError extends Error {
+    constructor(message?: string) {
+        super();
+        this.name = 'AuthError';
+        this.message = message ?? '';
+    }
+}
+
+class AuthorizationError extends Error {
+    constructor(message?: string) {
+        super();
+        this.name = 'AuthorizationError';
+        this.message = message ?? '';
+    }
+}
+
 class ValidationError extends Error {
     constructor() {
         super();
@@ -15,4 +31,4 @@ class DBError extends Error {
     }
 }
 
-export { DBError, ValidationError };
+export { AuthError, AuthorizationError, DBError, ValidationError };

@@ -11,7 +11,9 @@
     "author": "이민철",
     "license": "MIT",
     "dependencies": {
+        "@types/cookie-parser": "^1.4.6",
         "@types/jsonwebtoken": "^9.0.5",
+        "cookie-parser": "^1.4.6",
         "dotenv": "^16.3.1",
         "express": "^4.18.2",
         "express-async-handler": "^1.2.0",
