@@ -6,11 +6,11 @@ import {
 } from '@controllers/user';
 import {
     DBErrorHandler,
+    authenticate,
     authenticationErrorHandler,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
-    verifyAuthentication,
 } from '@middlewares';
 import authRouter from '@routers/auth';
 import { form as formSchema } from '@validators/user';
@@ -40,7 +40,7 @@ app.post(
 );
 app.patch(
     '/user',
-    verifyAuthentication,
+    authenticate,
     checkSchema(formSchema, ['body']),
     validationResultHandler,
     updateController

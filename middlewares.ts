@@ -5,7 +5,7 @@ import type { ErrorRequestHandler, RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
-const verifyAuthentication: RequestHandler = (req, res, next) => {
+const authenticate: RequestHandler = (req, res, next) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
     const token = req.cookies?.[ACCESS_TOKEN_KEY];
     if (typeof token !== 'string') throw new AuthError();
@@ -93,9 +93,9 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 export {
     DBErrorHandler,
+    authenticate,
     authenticationErrorHandler,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
-    verifyAuthentication,
 };
