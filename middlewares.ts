@@ -9,11 +9,33 @@ const verifyAuth: RequestHandler = (req, res, next) => {
     const token = req.cookies?.access_token;
     if (typeof token !== 'string') throw new AuthError();
 
-    const payload = verifyToken(token);
+    let payload;
+    try {
+        payload = verifyToken(token);
+    } catch (err) {
+        if (err instanceof Error) {
+            throw new AuthError(err.message);
+        }
+        throw err;
+    }
     if (typeof payload === 'string') throw new AuthError();
     if (typeof payload?.email !== 'string') throw new AuthError();
 
     next();
+    return;
+};
+
+const authErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    if (err instanceof AuthError) {
+        console.error(err);
+        if (err.message.length !== 0) {
+            console.error(err.message);
+        }
+
+        res.status(StatusCodes.UNAUTHORIZED).end();
+        return;
+    }
+    next(err);
     return;
 };
 
@@ -63,6 +85,7 @@ const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 export {
     DBErrorHandler,
+    authErrorHandler,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
