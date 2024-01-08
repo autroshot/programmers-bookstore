@@ -1,7 +1,21 @@
 import { DBError, ValidationError } from '@errors';
+import { verifyToken } from '@utils/auth';
 import type { ErrorRequestHandler, RequestHandler } from 'express';
 import { validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
+
+const verifyAuth: RequestHandler = (req, res, next) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+    const token = req.cookies?.access_token;
+    if (typeof token !== 'string') throw Error('인증 오류');
+
+    const payload = verifyToken(token);
+    if (typeof payload === 'string') throw Error('인증 오류');
+    if (typeof payload?.email !== 'string') throw Error('인증 오류');
+
+    next();
+    return;
+};
 
 const validationResultHandler: RequestHandler = (req, res, next) => {
     const result = validationResult(req);
@@ -52,4 +66,5 @@ export {
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
+    verifyAuth,
 };
