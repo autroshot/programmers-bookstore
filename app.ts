@@ -8,6 +8,8 @@ import {
     DBErrorHandler,
     authenticate,
     authenticationErrorHandler,
+    authorizationErrorHandler,
+    authorize,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
@@ -43,6 +45,7 @@ app.patch(
     authenticate,
     checkSchema(formSchema, ['body']),
     validationResultHandler,
+    authorize,
     updateController
 );
 
@@ -51,6 +54,7 @@ app.use('/auth', authRouter);
 app.use(
     authenticationErrorHandler,
     validationErrorHandler,
+    authorizationErrorHandler,
     DBErrorHandler,
     errorHandler
 );

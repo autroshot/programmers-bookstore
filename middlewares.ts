@@ -1,8 +1,13 @@
 import { ACCESS_TOKEN_KEY } from '@@constants';
-import { AuthError, DBError, ValidationError } from '@errors';
+import {
+    AuthError,
+    AuthorizationError,
+    DBError,
+    ValidationError,
+} from '@errors';
 import { verifyToken } from '@utils/auth';
 import type { ErrorRequestHandler, RequestHandler } from 'express';
-import { validationResult } from 'express-validator';
+import { matchedData, validationResult } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
 const authenticate: RequestHandler = (req, res, next) => {
@@ -28,6 +33,21 @@ const authenticate: RequestHandler = (req, res, next) => {
     return;
 };
 
+const authorize: RequestHandler = (req, res, next) => {
+    const data = matchedData(req);
+    if (typeof data.email !== 'string')
+        throw new Error('유효한 이메일 입력값이 없습니다.');
+
+    if (typeof req.authenticatedEmail !== 'string')
+        throw new Error('인증된 이메일 값이 없습니다.');
+
+    const inputEmail = data.email;
+    const authenticatedEmail = req.authenticatedEmail;
+    if (inputEmail !== authenticatedEmail) throw new AuthorizationError();
+    next();
+    return;
+};
+
 const authenticationErrorHandler: ErrorRequestHandler = (
     err,
     req,
@@ -41,6 +61,22 @@ const authenticationErrorHandler: ErrorRequestHandler = (
         }
 
         res.status(StatusCodes.UNAUTHORIZED).end();
+        return;
+    }
+    next(err);
+    return;
+};
+
+const authorizationErrorHandler: ErrorRequestHandler = (
+    err,
+    req,
+    res,
+    next
+) => {
+    if (err instanceof AuthorizationError) {
+        console.error(err);
+
+        res.status(StatusCodes.FORBIDDEN).end();
         return;
     }
     next(err);
@@ -95,6 +131,8 @@ export {
     DBErrorHandler,
     authenticate,
     authenticationErrorHandler,
+    authorizationErrorHandler,
+    authorize,
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
