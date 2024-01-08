@@ -6,14 +6,16 @@ import {
 } from '@controllers/user';
 import {
     DBErrorHandler,
-    authenticate,
     authenticationErrorHandler,
     authorizationErrorHandler,
-    authorize,
     errorHandler,
     validationErrorHandler,
+} from '@middlewares/errorRequestHandlers';
+import {
+    authenticate,
+    authorize,
     validationResultHandler,
-} from '@middlewares';
+} from '@middlewares/requestHandlers';
 import authRouter from '@routers/auth';
 import { form as formSchema } from '@validators/user';
 import cookieParser from 'cookie-parser';
