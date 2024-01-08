@@ -10,7 +10,7 @@ import {
     errorHandler,
     validationErrorHandler,
     validationResultHandler,
-    verifyAuth,
+    verifyAuthentication,
 } from '@middlewares';
 import authRouter from '@routers/auth';
 import { form as formSchema } from '@validators/user';
@@ -40,7 +40,7 @@ app.post(
 );
 app.patch(
     '/user',
-    verifyAuth,
+    verifyAuthentication,
     checkSchema(formSchema, ['body']),
     validationResultHandler,
     updateController
