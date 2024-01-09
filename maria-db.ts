@@ -8,6 +8,7 @@ const pool = mysql.createPool({
     password: getEnvValue('DB_PASSWORD'),
     database: getEnvValue('DB_DATABASE'),
     namedPlaceholders: true,
+    dateStrings: true,
 });
 
 export default pool;
