@@ -8,7 +8,7 @@ function getEnvValue(key: key): string {
 }
 
 type key =
-    | 'PORT'
+    | 'SERVER_PORT'
     | 'DB_HOST'
     | 'DB_PORT'
     | 'DB_USER'
