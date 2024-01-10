@@ -17,6 +17,7 @@ import {
     validationResultHandler,
 } from '@middlewares/requestHandlers';
 import authRouter from '@routers/auth';
+import bookRouter from '@routers/book';
 import { form as formSchema } from '@validators/user';
 import cookieParser from 'cookie-parser';
 import express from 'express';
@@ -52,6 +53,7 @@ app.patch(
 );
 
 app.use('/auth', authRouter);
+app.use('/books', bookRouter);
 
 app.use(
     authenticationErrorHandler,
