@@ -4,7 +4,6 @@ import {
 } from '@controllers/book';
 import { validationResultHandler } from '@middlewares/request-handlers';
 import { id as idSchema } from '@validators/book';
-
 import express from 'express';
 import { checkSchema } from 'express-validator';
 
