@@ -10,12 +10,12 @@ import {
     authorizationErrorHandler,
     errorHandler,
     validationErrorHandler,
-} from '@middlewares/errorRequestHandlers';
+} from '@middlewares/error-request-handlers';
 import {
     authenticate,
     authorize,
     validationResultHandler,
-} from '@middlewares/requestHandlers';
+} from '@middlewares/request-handlers';
 import authRouter from '@routers/auth';
 import bookRouter from '@routers/book';
 import categoryRouter from '@routers/category';
