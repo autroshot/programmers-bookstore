@@ -1,4 +1,4 @@
-function getEnvValue(key: string): string {
+function getEnvValue(key: key): string {
     const value = process.env[key];
 
     if (value === undefined) {
@@ -6,5 +6,15 @@ function getEnvValue(key: string): string {
     }
     return value;
 }
+
+type key =
+    | 'PORT'
+    | 'DB_HOST'
+    | 'DB_PORT'
+    | 'DB_USER'
+    | 'DB_PASSWORD'
+    | 'DB_DATABASE'
+    | 'JWT_SECRET_KEY'
+    | 'JWT_ISSUER';
 
 export { getEnvValue };
