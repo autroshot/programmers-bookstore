@@ -2,7 +2,7 @@ import {
     basic as basicController,
     email as emailController,
 } from '@controllers/auth';
-import { validationResultHandler } from '@middlewares/requestHandlers';
+import { validationResultHandler } from '@middlewares/request-handlers';
 import {
     email as eamilParamSchema,
     form as formSchema,

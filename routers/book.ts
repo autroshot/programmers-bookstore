@@ -2,7 +2,7 @@ import {
     findMany as findManyController,
     findOne as findOneController,
 } from '@controllers/book';
-import { validationResultHandler } from '@middlewares/requestHandlers';
+import { validationResultHandler } from '@middlewares/request-handlers';
 import { id as idSchema } from '@validators/book';
 
 import express from 'express';
