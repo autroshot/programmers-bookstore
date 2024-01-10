@@ -5,7 +5,7 @@ import type { RowDataPacket } from 'mysql2';
 const findMany = DBErrorWrapper(
     async (): Promise<Array<FindManyResult> | undefined> => {
         const sql =
-            'SELECT `id`, `title`, `author`, `price`, `summary`, `image_url` AS `imageUrl` FROM `books`;';
+            'SELECT `id`, `title`, `author`, `price`, `summary`, `image_url` AS `imageUrl` FROM `books`';
 
         const [books] = await pool.execute<Array<FindManyResult>>(sql);
 
