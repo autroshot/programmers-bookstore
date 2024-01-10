@@ -1,9 +1,12 @@
+import { findMany as findManyService } from '@services/category';
 import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { StatusCodes } from 'http-status-codes';
 
-const findMany: RequestHandler = expressAsyncHandler((req, res) => {
-    res.status(StatusCodes.OK).json('범주 목록 API');
+const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
+    const categories = await findManyService();
+
+    res.status(StatusCodes.OK).json(categories);
     return;
 });
 
