@@ -2,7 +2,7 @@ import type { Schema } from 'express-validator';
 
 const id: Schema = {
     id: {
-        isInt: { options: { min: 0, allow_leading_zeroes: false } },
+        isInt: { options: { min: 1, allow_leading_zeroes: false } },
         toInt: true,
     },
 };
