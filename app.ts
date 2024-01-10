@@ -18,6 +18,7 @@ import {
 } from '@middlewares/requestHandlers';
 import authRouter from '@routers/auth';
 import bookRouter from '@routers/book';
+import categoryRouter from '@routers/category';
 import { getEnvValue } from '@utils/env';
 import { form as formSchema } from '@validators/user';
 import cookieParser from 'cookie-parser';
@@ -55,6 +56,7 @@ app.patch(
 
 app.use('/auth', authRouter);
 app.use('/books', bookRouter);
+app.use('/categories', categoryRouter);
 
 app.use(
     authenticationErrorHandler,
