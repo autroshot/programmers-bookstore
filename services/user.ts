@@ -1,7 +1,6 @@
 import pool from '@maria-db';
-import type { User } from '@models/user';
 import { DBErrorWrapper } from '@utils/db';
-import type { ResultSetHeader } from 'mysql2';
+import type { ResultSetHeader, RowDataPacket } from 'mysql2';
 
 const create = DBErrorWrapper(
     async ({ email, password, salt }: createForm): Promise<void> => {
@@ -49,6 +48,13 @@ const update = DBErrorWrapper(
         return true;
     }
 );
+
+interface User extends RowDataPacket {
+    id: number;
+    email: string;
+    password: string;
+    salt: string;
+}
 
 type createForm = Pick<User, 'email' | 'password' | 'salt'>;
 
