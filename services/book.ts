@@ -3,13 +3,18 @@ import { DBErrorWrapper } from '@utils/db';
 import type { RowDataPacket } from 'mysql2';
 
 const findMany = DBErrorWrapper(
-    async (): Promise<Array<FindManyResult> | undefined> => {
-        const sql = `
+    async (categoryId?: number): Promise<Array<FindManyResult> | undefined> => {
+        let sql = `
             SELECT "id", "title", "author", "price", "summary", "image_url" AS "imageUrl" 
             FROM "books"
             `;
+        const values = { categoryId };
 
-        const [books] = await pool.execute<Array<FindManyResult>>(sql);
+        if (categoryId !== undefined) {
+            sql = sql.concat(' WHERE "books"."category_id" = :categoryId');
+        }
+
+        const [books] = await pool.execute<Array<FindManyResult>>(sql, values);
 
         return books;
     }
