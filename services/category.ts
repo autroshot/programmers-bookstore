@@ -6,7 +6,7 @@ const findMany = DBErrorWrapper(
     async (): Promise<Array<FindManyResult> | undefined> => {
         const sql = `
             SELECT "id", "name" 
-            FROM "categories";
+            FROM "categories"
             `;
 
         const [categories] = await pool.execute<Array<FindManyResult>>(sql);
