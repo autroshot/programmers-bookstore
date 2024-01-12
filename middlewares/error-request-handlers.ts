@@ -83,10 +83,19 @@ const JSONParsingErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return;
 };
 
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+const serverErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     console.error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
 };
+
+const errorHandlers: Array<ErrorRequestHandler> = [
+    authenticationErrorHandler,
+    validationErrorHandler,
+    authorizationErrorHandler,
+    DBErrorHandler,
+    JSONParsingErrorHandler,
+    serverErrorHandler,
+];
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function assertJSONParsingError(err: any): err is JSONParsingError {
@@ -107,11 +116,4 @@ interface JSONParsingError extends SyntaxError {
     type: string;
 }
 
-export {
-    DBErrorHandler,
-    JSONParsingErrorHandler,
-    authenticationErrorHandler,
-    authorizationErrorHandler,
-    errorHandler,
-    validationErrorHandler,
-};
+export default errorHandlers;
