@@ -72,13 +72,44 @@ const DBErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     return;
 };
 
+const JSONParsingErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (assertJSONParsingError(err) && err.statusCode === 400) {
+        console.error(err);
+        res.status(StatusCodes.BAD_REQUEST).end();
+        return;
+    }
+    next(err);
+    return;
+};
+
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     console.error(err);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).end();
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function assertJSONParsingError(err: any): err is JSONParsingError {
+    return (
+        'expose' in err &&
+        'statusCode' in err &&
+        'status' in err &&
+        'body' in err &&
+        'type' in err
+    );
+}
+
+interface JSONParsingError extends SyntaxError {
+    expose: boolean;
+    statusCode: number;
+    status: number;
+    body: string;
+    type: string;
+}
+
 export {
     DBErrorHandler,
+    JSONParsingErrorHandler,
     authenticationErrorHandler,
     authorizationErrorHandler,
     errorHandler,
