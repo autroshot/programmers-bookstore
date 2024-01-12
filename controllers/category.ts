@@ -1,4 +1,7 @@
-import { findMany as findManyBooksService } from '@services/book';
+import {
+    findMany as findManyBooksService,
+    findOne as findOneBookService,
+} from '@services/book';
 import { findMany as findManyCategoriesService } from '@services/category';
 import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
@@ -17,6 +20,11 @@ const findManyBooks: RequestHandler = expressAsyncHandler(async (req, res) => {
         id: number;
     };
 
+    const category = await findOneBookService(categoryId);
+    if (category === undefined) {
+        res.status(StatusCodes.NOT_FOUND).end();
+        return;
+    }
     const books = await findManyBooksService(categoryId);
 
     res.status(StatusCodes.OK).json(books);
