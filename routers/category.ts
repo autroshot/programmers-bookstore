@@ -1,5 +1,5 @@
 import {
-    findManyBooks as findManyBooksController,
+    findManyBooksByCategory as findManyBooksByCategoryController,
     findMany as findManyController,
 } from '@controllers/category';
 import { validationResultHandler } from '@middlewares/request-handlers';
@@ -14,7 +14,7 @@ router.get(
     '/:id/books',
     checkSchema(idSchema, ['params']),
     validationResultHandler,
-    findManyBooksController
+    findManyBooksByCategoryController
 );
 
 export default router;

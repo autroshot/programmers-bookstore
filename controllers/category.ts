@@ -15,20 +15,22 @@ const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-const findManyBooks: RequestHandler = expressAsyncHandler(async (req, res) => {
-    const { id: categoryId } = matchedData(req) as {
-        id: number;
-    };
+const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
+    async (req, res) => {
+        const { id: categoryId } = matchedData(req) as {
+            id: number;
+        };
 
-    const category = await findOneBookService(categoryId);
-    if (category === undefined) {
-        res.status(StatusCodes.NOT_FOUND).end();
+        const category = await findOneBookService(categoryId);
+        if (category === undefined) {
+            res.status(StatusCodes.NOT_FOUND).end();
+            return;
+        }
+        const books = await findManyBooksService(categoryId);
+
+        res.status(StatusCodes.OK).json(books);
         return;
     }
-    const books = await findManyBooksService(categoryId);
+);
 
-    res.status(StatusCodes.OK).json(books);
-    return;
-});
-
-export { findMany, findManyBooks };
+export { findMany, findManyBooksByCategory };
