@@ -1,6 +1,8 @@
+import { findMany as findManyBookService } from '@services/book';
 import { findMany as findManyService } from '@services/category';
 import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
+import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
 const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
@@ -10,10 +12,14 @@ const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-const findManyBooks: RequestHandler = expressAsyncHandler((req, res) => {
-    const { id } = req.params;
+const findManyBooks: RequestHandler = expressAsyncHandler(async (req, res) => {
+    const { id: categoryId } = matchedData(req) as {
+        id: number;
+    };
 
-    res.status(StatusCodes.OK).json(`범주 ${id}에 해당하는 도서 목록`);
+    const books = await findManyBookService(categoryId);
+
+    res.status(StatusCodes.OK).json(books);
     return;
 });
 
