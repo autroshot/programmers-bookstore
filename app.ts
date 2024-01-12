@@ -4,14 +4,7 @@ import {
     join as joinController,
     update as updateController,
 } from '@controllers/user';
-import {
-    DBErrorHandler,
-    JSONParsingErrorHandler,
-    authenticationErrorHandler,
-    authorizationErrorHandler,
-    errorHandler,
-    validationErrorHandler,
-} from '@middlewares/error-request-handlers';
+import errorHandlers from '@middlewares/error-request-handlers';
 import {
     authenticate,
     authorize,
@@ -59,11 +52,4 @@ app.use('/auth', authRouter);
 app.use('/books', bookRouter);
 app.use('/categories', categoryRouter);
 
-app.use(
-    authenticationErrorHandler,
-    validationErrorHandler,
-    authorizationErrorHandler,
-    DBErrorHandler,
-    JSONParsingErrorHandler,
-    errorHandler
-);
+app.use(errorHandlers);
