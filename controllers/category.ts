@@ -10,4 +10,11 @@ const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-export { findMany };
+const findManyBooks: RequestHandler = expressAsyncHandler((req, res) => {
+    const { id } = req.params;
+
+    res.status(StatusCodes.OK).json(`범주 ${id}에 해당하는 도서 목록`);
+    return;
+});
+
+export { findMany, findManyBooks };
