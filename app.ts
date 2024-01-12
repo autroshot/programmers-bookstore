@@ -6,6 +6,7 @@ import {
 } from '@controllers/user';
 import {
     DBErrorHandler,
+    JSONParsingErrorHandler,
     authenticationErrorHandler,
     authorizationErrorHandler,
     errorHandler,
@@ -63,5 +64,6 @@ app.use(
     validationErrorHandler,
     authorizationErrorHandler,
     DBErrorHandler,
+    JSONParsingErrorHandler,
     errorHandler
 );
