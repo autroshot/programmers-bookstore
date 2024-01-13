@@ -7,4 +7,4 @@ const id: Schema = {
     },
 };
 
-export { id };
+export default id;
