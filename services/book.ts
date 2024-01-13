@@ -3,7 +3,7 @@ import { DBErrorWrapper } from '@utils/db';
 import type { RowDataPacket } from 'mysql2';
 
 const findMany = DBErrorWrapper(
-    async (categoryId?: number): Promise<Array<FindManyResult> | undefined> => {
+    async (categoryId?: number): Promise<Array<FindManyResult>> => {
         let sql = `
             SELECT "id", "title", "author", "price", "summary", "image_url" AS "imageUrl" 
             FROM "books"

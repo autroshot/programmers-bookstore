@@ -2,18 +2,16 @@ import pool from '@maria-db';
 import { DBErrorWrapper } from '@utils/db';
 import type { RowDataPacket } from 'mysql2';
 
-const findMany = DBErrorWrapper(
-    async (): Promise<Array<FindManyResult> | undefined> => {
-        const sql = `
+const findMany = DBErrorWrapper(async (): Promise<Array<FindManyResult>> => {
+    const sql = `
             SELECT "id", "name" 
             FROM "categories"
             `;
 
-        const [categories] = await pool.execute<Array<FindManyResult>>(sql);
+    const [categories] = await pool.execute<Array<FindManyResult>>(sql);
 
-        return categories;
-    }
-);
+    return categories;
+});
 
 const findOne = DBErrorWrapper(
     async (id: number): Promise<FindOneResult | undefined> => {
