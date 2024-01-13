@@ -3,7 +3,7 @@ import { DBErrorWrapper } from '@utils/db';
 import type { RowDataPacket } from 'mysql2';
 
 const findMany = DBErrorWrapper(
-    async (categoryId?: number): Promise<Array<FindManyResult>> => {
+    async (categoryId?: number): Promise<Array<SimpleBook>> => {
         let sql = `
             SELECT "id", "title", "author", "price", "summary", "image_url" AS "imageUrl" 
             FROM "books"
@@ -14,14 +14,14 @@ const findMany = DBErrorWrapper(
             sql = sql.concat(' WHERE "books"."category_id" = :categoryId');
         }
 
-        const [books] = await pool.execute<Array<FindManyResult>>(sql, values);
+        const [books] = await pool.execute<Array<SimpleBook>>(sql, values);
 
         return books;
     }
 );
 
 const findOne = DBErrorWrapper(
-    async (id: number): Promise<FindOneResult | undefined> => {
+    async (id: number): Promise<DetailedBook | undefined> => {
         const sql = `
             SELECT 
                 "books"."id", 
@@ -45,13 +45,13 @@ const findOne = DBErrorWrapper(
             `;
         const values = { id };
 
-        const [books] = await pool.execute<Array<FindOneResult>>(sql, values);
+        const [books] = await pool.execute<Array<DetailedBook>>(sql, values);
 
         return books[0];
     }
 );
 
-interface FindManyResult extends RowDataPacket {
+interface SimpleBook extends RowDataPacket {
     id: number;
     title: string;
     author: string;
@@ -60,20 +60,14 @@ interface FindManyResult extends RowDataPacket {
     imageUrl: string | null;
 }
 
-interface FindOneResult extends RowDataPacket {
-    id: number;
+interface DetailedBook extends SimpleBook {
     category: string;
     format: string;
     isbn: string;
-    title: string;
-    author: string;
     pages: number;
-    price: number;
     publicationDate: string;
-    summary: string | null;
     description: string | null;
     tableOfContents: string | null;
-    imageUrl: string | null;
 }
 
 export { findMany, findOne };
