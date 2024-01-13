@@ -14,7 +14,7 @@ import authRouter from '@routers/auth';
 import bookRouter from '@routers/book';
 import categoryRouter from '@routers/category';
 import { getEnvValue } from '@utils/env';
-import { form as formSchema } from '@validators/user';
+import { form as formSchema } from '@validatorSchemas/user';
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import { checkSchema } from 'express-validator';

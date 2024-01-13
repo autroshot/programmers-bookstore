@@ -3,8 +3,8 @@ import {
     findMany as findManyController,
 } from '@controllers/category';
 import { validationResultHandler } from '@middlewares/request-handlers';
-import idSchema from '@validators/id';
-import paginationSchema from '@validators/pagination';
+import idSchema from '@validatorSchemas/id';
+import paginationSchema from '@validatorSchemas/pagination';
 import express from 'express';
 import { checkSchema } from 'express-validator';
 
