@@ -3,16 +3,25 @@ import { DBErrorWrapper } from '@utils/db';
 import type { RowDataPacket } from 'mysql2';
 
 const findMany = DBErrorWrapper(
-    async (categoryId?: number): Promise<Array<SimpleBook>> => {
+    async (
+        categoryId?: number,
+        pagination: Pagination = { offset: 0, limit: 5 }
+    ): Promise<Array<SimpleBook>> => {
         let sql = `
             SELECT "id", "title", "author", "price", "summary", "image_url" AS "imageUrl" 
             FROM "books"
             `;
-        const values = { categoryId };
+        const values = {
+            categoryId,
+            offset: pagination.offset,
+            limit: pagination.limit,
+        };
 
         if (categoryId !== undefined) {
             sql = sql.concat(' WHERE "books"."category_id" = :categoryId');
         }
+
+        sql = sql.concat(' LIMIT :limit OFFSET :offset');
 
         const [books] = await pool.execute<Array<SimpleBook>>(sql, values);
 
@@ -70,4 +79,10 @@ interface DetailedBook extends SimpleBook {
     tableOfContents: string | null;
 }
 
+interface Pagination {
+    offset: number;
+    limit: number;
+}
+
 export { findMany, findOne };
+export type { Pagination };
