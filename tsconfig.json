@@ -35,7 +35,7 @@
             "@routers/*": ["./routers/*"],
             "@services/*": ["./services/*"],
             "@utils/*": ["./utils/*"],
-            "@validators/*": ["./validators/*"],
+            "@validatorSchemas/*": ["./validatorSchemas/*"],
             "@@constants": ["./constants"],
             "@errors": ["./errors"],
             "@maria-db": ["./maria-db"]

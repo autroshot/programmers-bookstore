@@ -13,4 +13,4 @@ const pagination: Schema = {
     },
 };
 
-export { pagination };
+export default pagination;

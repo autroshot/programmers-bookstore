@@ -6,7 +6,7 @@ import { validationResultHandler } from '@middlewares/request-handlers';
 import {
     email as eamilParamSchema,
     form as formSchema,
-} from '@validators/user';
+} from '@validatorSchemas/user';
 import express from 'express';
 import { checkSchema } from 'express-validator';
 
