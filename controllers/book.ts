@@ -2,13 +2,20 @@ import {
     findMany as findManyService,
     findOne as findOneService,
 } from '@services/book';
+import { toDBPagination } from '@utils/pagination';
 import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
 const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
-    const books = await findManyService();
+    const { page, limit } = matchedData(req) as {
+        page?: number;
+        limit?: number;
+    };
+
+    const DBPagination = toDBPagination(page, limit);
+    const books = await findManyService(undefined, DBPagination);
 
     res.status(StatusCodes.OK).json(books);
     return;
