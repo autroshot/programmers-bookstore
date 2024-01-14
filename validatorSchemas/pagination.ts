@@ -2,12 +2,12 @@ import type { Schema } from 'express-validator';
 
 const pagination: Schema = {
     page: {
-        optional: true,
+        default: { options: '1' },
         isInt: { options: { min: 1, allow_leading_zeroes: false } },
         toInt: true,
     },
     limit: {
-        optional: true,
+        default: { options: '5' },
         isInt: { options: { min: 1, allow_leading_zeroes: false } },
         toInt: true,
     },
