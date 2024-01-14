@@ -15,7 +15,7 @@ const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
     };
 
     const DBPagination = toDBPagination(page, limit);
-    const books = await findManyService(undefined, DBPagination);
+    const books = await findManyService(DBPagination);
 
     res.status(StatusCodes.OK).json(books);
     return;

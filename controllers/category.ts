@@ -34,7 +34,7 @@ const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
             return;
         }
         const DBPagination = toDBPagination(page, limit);
-        const books = await findManyBooksService(categoryId, DBPagination);
+        const books = await findManyBooksService(DBPagination, categoryId);
 
         res.status(StatusCodes.OK).json(books);
         return;
