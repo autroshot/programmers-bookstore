@@ -24,8 +24,8 @@ const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
             limit,
         } = matchedData(req) as {
             id: number;
-            page?: number;
-            limit?: number;
+            page: number;
+            limit: number;
         };
 
         const category = await findOneBookService(categoryId);
@@ -34,7 +34,7 @@ const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
             return;
         }
         const DBPagination = toDBPagination(page, limit);
-        const books = await findManyBooksService(categoryId, DBPagination);
+        const books = await findManyBooksService(DBPagination, categoryId);
 
         res.status(StatusCodes.OK).json(books);
         return;

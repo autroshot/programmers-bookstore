@@ -4,8 +4,8 @@ import type { RowDataPacket } from 'mysql2';
 
 const findMany = DBErrorWrapper(
     async (
-        categoryId?: number,
-        pagination: Pagination = { offset: 0, limit: 5 }
+        pagination: Pagination,
+        categoryId?: number
     ): Promise<Array<SimpleBook>> => {
         let sql = `
             SELECT "id", "title", "author", "price", "summary", "image_url" AS "imageUrl" 

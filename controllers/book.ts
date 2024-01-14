@@ -10,12 +10,12 @@ import { StatusCodes } from 'http-status-codes';
 
 const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { page, limit } = matchedData(req) as {
-        page?: number;
-        limit?: number;
+        page: number;
+        limit: number;
     };
 
     const DBPagination = toDBPagination(page, limit);
-    const books = await findManyService(undefined, DBPagination);
+    const books = await findManyService(DBPagination);
 
     res.status(StatusCodes.OK).json(books);
     return;
