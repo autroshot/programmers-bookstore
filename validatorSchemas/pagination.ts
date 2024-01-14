@@ -8,7 +8,7 @@ const pagination: Schema = {
     },
     limit: {
         default: { options: '5' },
-        isInt: { options: { min: 1, allow_leading_zeroes: false } },
+        isInt: { options: { min: 1, max: 100, allow_leading_zeroes: false } },
         toInt: true,
     },
 };
