@@ -3,6 +3,7 @@ import {
     findOne as findOneController,
 } from '@controllers/book';
 import { validationResultHandler } from '@middlewares/request-handlers';
+import { isNew as isNewSchema } from '@validatorSchemas/book';
 import idSchema from '@validatorSchemas/id';
 import paginationSchema from '@validatorSchemas/pagination';
 import express from 'express';
@@ -13,6 +14,7 @@ const router = express.Router();
 router.get(
     '/',
     checkSchema(paginationSchema, ['query']),
+    checkSchema(isNewSchema, ['query']),
     validationResultHandler,
     findManyController
 );

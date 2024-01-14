@@ -12,6 +12,7 @@ const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { page, limit } = matchedData(req) as {
         page: number;
         limit: number;
+        isNew: boolean;
     };
 
     const DBPagination = toDBPagination(page, limit);

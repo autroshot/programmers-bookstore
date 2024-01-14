@@ -26,6 +26,7 @@ const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
             id: number;
             page: number;
             limit: number;
+            isNew: boolean;
         };
 
         const category = await findOneBookService(categoryId);
