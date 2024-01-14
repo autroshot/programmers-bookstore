@@ -2,42 +2,74 @@ import pool from '@maria-db';
 import { DBErrorWrapper } from '@utils/db';
 import type { RowDataPacket } from 'mysql2';
 
+class SqlBuilder {
+    #selectStatement = '';
+    #conditions: Array<string> = [];
+    #limitClause = '';
+
+    constructor(selectStatement: string) {
+        this.#selectStatement = selectStatement;
+    }
+
+    /**
+     * `WHERE`절에 조건을 추가한다.
+     * @param condition `WHERE`절에 추가될 조건 (예: `"books"."category_id" = :categoryId`)
+     */
+    addCondition(condition: string): void {
+        this.#conditions.push(condition);
+    }
+    /**
+     * `LIMIT` 절을 지정한다.
+     * @param limitClause `LIMIT`절 (예: `LIMIT :limit OFFSET :offset`)
+     */
+    setLimitClause(limitClause: string): void {
+        this.#limitClause = limitClause;
+    }
+
+    build(): string {
+        const sqls = [];
+
+        sqls.push(this.#selectStatement);
+
+        if (this.#conditions.length >= 1) {
+            const whereClause = `WHERE ${this.#conditions.join(' AND ')}`;
+            sqls.push(whereClause);
+        }
+
+        sqls.push(this.#limitClause);
+
+        return sqls.join(' ');
+    }
+}
+
 const findMany = DBErrorWrapper(
     async (
         pagination: Pagination,
         isNew: boolean,
         categoryId?: number
     ): Promise<Array<SimpleBook>> => {
-        let sql = `
+        const sqlBuilder = new SqlBuilder(`
             SELECT "id", "title", "author", "price", "summary", "image_url" AS "imageUrl" 
             FROM "books"
-            `;
+        `);
+
+        if (categoryId !== undefined) {
+            sqlBuilder.addCondition(`"books"."category_id" = :categoryId`);
+        }
+        if (isNew) {
+            sqlBuilder.addCondition(
+                `"books"."publication_date" BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()`
+            );
+        }
+        sqlBuilder.setLimitClause(`LIMIT :limit OFFSET :offset`);
+
+        const sql = sqlBuilder.build();
         const values = {
             categoryId,
             isNew,
             offset: pagination.offset,
             limit: pagination.limit,
         };
-
-        if (isNew === true && categoryId !== undefined) {
-            sql = sql.concat(` 
-                WHERE 
-                    "books"."category_id" = :categoryId AND 
-                    "books"."publication_date" BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
-            `);
-        } else if (isNew === true) {
-            sql = sql.concat(` 
-                WHERE 
-                    "books"."publication_date" BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
-            `);
-        } else if (categoryId !== undefined) {
-            sql = sql.concat(` 
-                WHERE 
-                    "books"."category_id" = :categoryId
-            `);
-        }
-
-        sql = sql.concat(' LIMIT :limit OFFSET :offset');
 
         const [books] = await pool.execute<Array<SimpleBook>>(sql, values);
 
