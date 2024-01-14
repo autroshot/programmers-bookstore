@@ -5,6 +5,7 @@ import type { RowDataPacket } from 'mysql2';
 const findMany = DBErrorWrapper(
     async (
         pagination: Pagination,
+        isNew: boolean,
         categoryId?: number
     ): Promise<Array<SimpleBook>> => {
         let sql = `
@@ -13,12 +14,27 @@ const findMany = DBErrorWrapper(
             `;
         const values = {
             categoryId,
+            isNew,
             offset: pagination.offset,
             limit: pagination.limit,
         };
 
-        if (categoryId !== undefined) {
-            sql = sql.concat(' WHERE "books"."category_id" = :categoryId');
+        if (isNew === true && categoryId !== undefined) {
+            sql = sql.concat(` 
+                WHERE 
+                    "books"."category_id" = :categoryId AND 
+                    "books"."publication_date" BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
+            `);
+        } else if (isNew === true) {
+            sql = sql.concat(` 
+                WHERE 
+                    "books"."publication_date" BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()
+            `);
+        } else if (categoryId !== undefined) {
+            sql = sql.concat(` 
+                WHERE 
+                    "books"."category_id" = :categoryId
+            `);
         }
 
         sql = sql.concat(' LIMIT :limit OFFSET :offset');
