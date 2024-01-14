@@ -9,14 +9,14 @@ import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
 const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
-    const { page, limit } = matchedData(req) as {
+    const { page, limit, isNew } = matchedData(req) as {
         page: number;
         limit: number;
         isNew: boolean;
     };
 
     const DBPagination = toDBPagination(page, limit);
-    const books = await findManyService(DBPagination);
+    const books = await findManyService(DBPagination, isNew);
 
     res.status(StatusCodes.OK).json(books);
     return;
