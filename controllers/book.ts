@@ -37,4 +37,30 @@ const findOne: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-export { findMany, findOne };
+const like: RequestHandler = expressAsyncHandler((req, res) => {
+    const { id: bookId } = matchedData(req) as {
+        id: number;
+    };
+    const userId = req.authenticatedId as number;
+
+    console.log('bookId: ' + bookId);
+    console.log('userId: ' + userId);
+
+    res.status(201).end();
+    return;
+});
+
+const cancelLike: RequestHandler = expressAsyncHandler((req, res) => {
+    const { id: bookId } = matchedData(req) as {
+        id: number;
+    };
+    const userId = req.authenticatedId as number;
+
+    console.log('bookId: ' + bookId);
+    console.log('userId: ' + userId);
+
+    res.status(204).end();
+    return;
+});
+
+export { cancelLike, findMany, findOne, like };
