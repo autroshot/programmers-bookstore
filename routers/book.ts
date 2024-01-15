@@ -30,19 +30,12 @@ router.get(
     findOneController
 );
 
-router
-    .route('/:id/likes')
-    .post(
-        authenticate,
-        checkSchema(idSchema, ['params']),
-        validationResultHandler,
-        likeController
-    )
-    .delete(
-        authenticate,
-        checkSchema(idSchema, ['params']),
-        validationResultHandler,
-        cancelLikeController
-    );
+router.use(
+    '/:id/likes',
+    authenticate,
+    checkSchema(idSchema, ['params']),
+    validationResultHandler
+);
+router.route('/:id/likes').post(likeController).delete(cancelLikeController);
 
 export default router;
