@@ -2,6 +2,7 @@ import {
     findMany as findManyService,
     findOne as findOneService,
 } from '@services/book';
+import { create as createLikeService } from '@services/like';
 import { toDBPagination } from '@utils/pagination';
 import type { RequestHandler } from 'express';
 import expressAsyncHandler from 'express-async-handler';
@@ -37,14 +38,13 @@ const findOne: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-const like: RequestHandler = expressAsyncHandler((req, res) => {
+const like: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { id: bookId } = matchedData(req) as {
         id: number;
     };
     const userId = req.authenticatedId as number;
 
-    console.log('bookId: ' + bookId);
-    console.log('userId: ' + userId);
+    await createLikeService(userId, bookId);
 
     res.status(201).end();
     return;
