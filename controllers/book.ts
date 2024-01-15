@@ -49,7 +49,7 @@ const like: RequestHandler = expressAsyncHandler(async (req, res) => {
 
     await createLikeService(userId, bookId);
 
-    res.status(201).end();
+    res.status(StatusCodes.CREATED).end();
     return;
 });
 
