@@ -24,9 +24,13 @@ const authenticate: RequestHandler = (req, res, next) => {
     }
     if (typeof payload === 'string') throw new AuthenticationError();
     if (typeof payload?.email !== 'string') throw new AuthenticationError();
+    if (typeof payload?.id !== 'number') throw new AuthenticationError();
 
     const email = payload.email;
+    const id = payload.id;
     req.authenticatedEmail = email;
+    req.authenticatedId = id;
+
     next();
     return;
 };

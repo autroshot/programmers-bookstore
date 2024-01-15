@@ -25,7 +25,7 @@ const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
         res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
         return;
     }
-    const token = createToken({ email }, '5m');
+    const token = createToken({ id: user.id, email }, '5m');
 
     res.cookie(ACCESS_TOKEN_KEY, token, {
         maxAge: 5 * 60 * 1000,
@@ -47,7 +47,7 @@ const email: RequestHandler = expressAsyncHandler(async (req, res) => {
         res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
         return;
     }
-    const token = createToken({ email }, '5m');
+    const token = createToken({ id: user.id, email }, '5m');
 
     res.cookie(ACCESS_TOKEN_KEY, token, {
         maxAge: 5 * 60 * 1000,
