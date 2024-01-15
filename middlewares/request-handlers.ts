@@ -30,6 +30,7 @@ const authenticate: RequestHandler = (req, res, next) => {
     const id = payload.id;
     req.authenticatedEmail = email;
     req.authenticatedId = id;
+
     next();
     return;
 };
