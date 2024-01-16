@@ -1,4 +1,5 @@
 import {
+    count as countService,
     findMany as findManyBooksService,
     findOne as findOneBookService,
 } from '@services/book';
@@ -41,8 +42,10 @@ const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
             isNew,
             categoryId
         );
+        const count = await countService();
 
-        res.status(StatusCodes.OK).json(books);
+        const body = { books, totalPages: count };
+        res.status(StatusCodes.OK).json(body);
         return;
     }
 );
