@@ -84,7 +84,8 @@ const findOne = DBErrorWrapper(
                 "books"."id", 
                 "categories"."name" AS "category", 
                 "formats"."name" AS "format", 
-                "books"."isbn", "books"."title", 
+                "books"."isbn", 
+                "books"."title", 
                 "books"."author", 
                 "books"."pages", 
                 "books"."price", 
@@ -92,7 +93,8 @@ const findOne = DBErrorWrapper(
                 "books"."summary", 
                 "books"."description", 
                 "books"."table_of_contents" AS "tableOfContents", 
-                "books"."image_url" AS "imageUrl" 
+                "books"."image_url" AS "imageUrl", 
+                (SELECT COUNT(*) FROM "likes" WHERE "book_id" = 1) AS "likes" 
             FROM "books" 
             LEFT JOIN "categories" 
                 ON "categories"."id" = "books"."category_id" 
@@ -135,6 +137,7 @@ interface DetailedBook extends SimpleBook {
     publicationDate: string;
     description: string | null;
     tableOfContents: string | null;
+    likes: number;
 }
 
 interface Count extends RowDataPacket {
