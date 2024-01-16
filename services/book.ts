@@ -6,27 +6,37 @@ class SqlBuilder {
     #selectStatement = '';
     #conditions: Array<string> = [];
     #limitClause = '';
+    #values = {};
 
-    constructor(selectStatement: string) {
+    #addValues(newValues: object | undefined) {
+        if (newValues !== undefined) {
+            this.#values = { ...this.#values, ...newValues };
+        }
+    }
+
+    constructor(selectStatement: string, values?: object) {
         this.#selectStatement = selectStatement;
+        this.#addValues(values);
     }
 
     /**
      * `WHERE`절에 조건을 추가한다.
      * @param condition `WHERE`절에 추가될 조건 (예: `"books"."category_id" = :categoryId`)
      */
-    addCondition(condition: string): void {
+    addCondition(condition: string, values?: object): void {
         this.#conditions.push(condition);
+        this.#addValues(values);
     }
     /**
      * `LIMIT` 절을 지정한다.
      * @param limitClause `LIMIT`절 (예: `LIMIT :limit OFFSET :offset`)
      */
-    setLimitClause(limitClause: string): void {
+    setLimitClause(limitClause: string, values?: object): void {
         this.#limitClause = limitClause;
+        this.#addValues(values);
     }
 
-    build(): string {
+    build(): { sql: string; values: object } {
         const sqls = [];
 
         sqls.push(this.#selectStatement);
@@ -38,7 +48,8 @@ class SqlBuilder {
 
         sqls.push(this.#limitClause);
 
-        return sqls.join(' ');
+        const sql = sqls.join(' ');
+        return { sql, values: { ...this.#values } };
     }
 }
 
@@ -54,24 +65,26 @@ const findMany = DBErrorWrapper(
         `);
 
         if (categoryId !== undefined) {
-            sqlBuilder.addCondition(`"books"."category_id" = :categoryId`);
+            sqlBuilder.addCondition(`"books"."category_id" = :categoryId`, {
+                categoryId,
+            });
         }
         if (isNew) {
             sqlBuilder.addCondition(
                 `"books"."publication_date" BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()`
             );
         }
-        sqlBuilder.setLimitClause(`LIMIT :limit OFFSET :offset`);
-
-        const sql = sqlBuilder.build();
-        const values = {
-            categoryId,
-            isNew,
-            offset: pagination.offset,
+        sqlBuilder.setLimitClause(`LIMIT :limit OFFSET :offset`, {
             limit: pagination.limit,
-        };
+            offset: pagination.offset,
+        });
 
-        const [books] = await pool.execute<Array<SimpleBook>>(sql, values);
+        const result = sqlBuilder.build();
+
+        const [books] = await pool.execute<Array<SimpleBook>>(
+            result.sql,
+            result.values
+        );
 
         return books;
     }
