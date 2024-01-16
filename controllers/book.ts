@@ -1,4 +1,5 @@
 import {
+    count as countService,
     findMany as findManyService,
     findOne as findOneService,
 } from '@services/book';
@@ -21,8 +22,10 @@ const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
 
     const DBPagination = toDBPagination(page, limit);
     const books = await findManyService(DBPagination, isNew);
+    const count = await countService();
 
-    res.status(StatusCodes.OK).json(books);
+    const body = { books, totalPages: count };
+    res.status(StatusCodes.OK).json(body);
     return;
 });
 
