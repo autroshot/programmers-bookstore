@@ -108,6 +108,16 @@ const findOne = DBErrorWrapper(
     }
 );
 
+const count = DBErrorWrapper(async (): Promise<number> => {
+    const sql = 'SELECT COUNT(*) AS "count" FROM "books"';
+
+    const [counts] = await pool.execute<Array<Count>>(sql);
+
+    if (counts[0] === undefined)
+        throw Error('카운트 조회의 결과가 잘못되었습니다.');
+    return counts[0].count;
+});
+
 interface SimpleBook extends RowDataPacket {
     id: number;
     title: string;
@@ -127,10 +137,14 @@ interface DetailedBook extends SimpleBook {
     tableOfContents: string | null;
 }
 
+interface Count extends RowDataPacket {
+    count: number;
+}
+
 interface Pagination {
     offset: number;
     limit: number;
 }
 
-export { findMany, findOne };
+export { count, findMany, findOne };
 export type { Pagination };
