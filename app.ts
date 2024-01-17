@@ -13,6 +13,7 @@ import {
 import authRouter from '@routers/auth';
 import bookRouter from '@routers/book';
 import categoryRouter from '@routers/category';
+import likeRouter from '@routers/like';
 import { getEnvValue } from '@utils/env';
 import { form as formSchema } from '@validatorSchemas/user';
 import cookieParser from 'cookie-parser';
@@ -50,6 +51,7 @@ app.patch(
 
 app.use('/auth', authRouter);
 app.use('/books', bookRouter);
+app.use('/books/:id/likes', likeRouter);
 app.use('/categories', categoryRouter);
 
 app.use(errorHandlers);
