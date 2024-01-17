@@ -1,6 +1,7 @@
 import {
     basic as basicController,
     email as emailController,
+    logout as logoutController,
 } from '@controllers/auth';
 import { validationResultHandler } from '@middlewares/request-handlers';
 import {
@@ -12,6 +13,7 @@ import { checkSchema } from 'express-validator';
 
 const router = express.Router();
 
+router.route('/').delete(logoutController);
 router
     .route('/basic')
     .post(
