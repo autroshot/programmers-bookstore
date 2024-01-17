@@ -58,4 +58,9 @@ const email: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-export { basic, email };
+const logout: RequestHandler = (req, res) => {
+    res.clearCookie(ACCESS_TOKEN_KEY, { httpOnly: true }).status(204).end();
+    return;
+};
+
+export { basic, email, logout };
