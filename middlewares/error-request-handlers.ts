@@ -74,7 +74,11 @@ const DBErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 const JSONParsingErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (assertJSONParsingError(err) && err.statusCode === 400) {
+    if (
+        assertJSONParsingError(err) &&
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+        err.statusCode === StatusCodes.BAD_REQUEST
+    ) {
         console.error(err);
         res.status(StatusCodes.BAD_REQUEST).end();
         return;
