@@ -1,14 +1,8 @@
 import {
-    cancelLike as cancelLikeController,
     findMany as findManyController,
     findOne as findOneController,
-    findOneLike as findOneLikeController,
-    like as likeController,
 } from '@controllers/book';
-import {
-    authenticate,
-    validationResultHandler,
-} from '@middlewares/request-handlers';
+import { validationResultHandler } from '@middlewares/request-handlers';
 import { isNew as isNewSchema } from '@validatorSchemas/book';
 import idSchema from '@validatorSchemas/id';
 import paginationSchema from '@validatorSchemas/pagination';
@@ -30,17 +24,5 @@ router.get(
     validationResultHandler,
     findOneController
 );
-
-router.use(
-    '/:id/likes',
-    authenticate,
-    checkSchema(idSchema, ['params']),
-    validationResultHandler
-);
-router
-    .route('/:id/likes')
-    .get(findOneLikeController)
-    .post(likeController)
-    .delete(cancelLikeController);
 
 export default router;
