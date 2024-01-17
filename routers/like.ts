@@ -1,8 +1,8 @@
 import {
     cancelLike as cancelLikeController,
-    findOneLike as findOneLikeController,
+    isLikeExist as isLikeExistController,
     like as likeController,
-} from '@controllers/book';
+} from '@controllers/like';
 import {
     authenticate,
     validationResultHandler,
@@ -21,7 +21,7 @@ router.use(
 
 router
     .route('/')
-    .get(findOneLikeController)
+    .get(isLikeExistController)
     .post(likeController)
     .delete(cancelLikeController);
 
