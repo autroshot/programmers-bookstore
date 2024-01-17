@@ -2,6 +2,7 @@ import {
     cancelLike as cancelLikeController,
     findMany as findManyController,
     findOne as findOneController,
+    findOneLike as findOneLikeController,
     like as likeController,
 } from '@controllers/book';
 import {
@@ -36,6 +37,10 @@ router.use(
     checkSchema(idSchema, ['params']),
     validationResultHandler
 );
-router.route('/:id/likes').post(likeController).delete(cancelLikeController);
+router
+    .route('/:id/likes')
+    .get(findOneLikeController)
+    .post(likeController)
+    .delete(cancelLikeController);
 
 export default router;

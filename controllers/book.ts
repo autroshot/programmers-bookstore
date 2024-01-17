@@ -5,6 +5,7 @@ import {
 } from '@services/book';
 import {
     create as createLikeService,
+    findOne as findOneLikeService,
     remove as removeLikeService,
 } from '@services/like';
 import { toDBPagination } from '@utils/pagination';
@@ -44,6 +45,19 @@ const findOne: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
+const findOneLike: RequestHandler = expressAsyncHandler(async (req, res) => {
+    const { id: bookId } = matchedData(req) as {
+        id: number;
+    };
+    const userId = req.authenticatedId as number;
+
+    const like = await findOneLikeService(userId, bookId);
+    const isLikeExist = like !== undefined;
+
+    res.status(StatusCodes.OK).json(isLikeExist);
+    return;
+});
+
 const like: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { id: bookId } = matchedData(req) as {
         id: number;
@@ -72,4 +86,4 @@ const cancelLike: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-export { cancelLike, findMany, findOne, like };
+export { cancelLike, findMany, findOne, findOneLike, like };
