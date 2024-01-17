@@ -1,7 +1,7 @@
 import {
-    cancelLike as cancelLikeController,
-    isLikeExist as isLikeExistController,
-    like as likeController,
+    create as createController,
+    isExist as isExistController,
+    remove as removeController,
 } from '@controllers/like';
 import {
     authenticate,
@@ -21,8 +21,8 @@ router.use(
 
 router
     .route('/')
-    .get(isLikeExistController)
-    .post(likeController)
-    .delete(cancelLikeController);
+    .get(isExistController)
+    .post(createController)
+    .delete(removeController);
 
 export default router;

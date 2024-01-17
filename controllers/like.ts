@@ -8,7 +8,7 @@ import expressAsyncHandler from 'express-async-handler';
 import { matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
-const isLikeExist: RequestHandler = expressAsyncHandler(async (req, res) => {
+const isExist: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { id: bookId } = matchedData(req) as {
         id: number;
     };
@@ -21,7 +21,7 @@ const isLikeExist: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-const like: RequestHandler = expressAsyncHandler(async (req, res) => {
+const create: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { id: bookId } = matchedData(req) as {
         id: number;
     };
@@ -33,7 +33,7 @@ const like: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-const cancelLike: RequestHandler = expressAsyncHandler(async (req, res) => {
+const remove: RequestHandler = expressAsyncHandler(async (req, res) => {
     const { id: bookId } = matchedData(req) as {
         id: number;
     };
@@ -49,4 +49,4 @@ const cancelLike: RequestHandler = expressAsyncHandler(async (req, res) => {
     return;
 });
 
-export { cancelLike, isLikeExist, like };
+export { create, isExist, remove };
