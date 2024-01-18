@@ -31,7 +31,7 @@ const basic: RequestHandler = expressAsyncHandler(async (req, res) => {
         maxAge: 5 * 60 * 1000,
         httpOnly: true,
     })
-        .status(StatusCodes.OK)
+        .status(StatusCodes.CREATED)
         .end();
     return;
 });
@@ -53,7 +53,7 @@ const email: RequestHandler = expressAsyncHandler(async (req, res) => {
         maxAge: 5 * 60 * 1000,
         httpOnly: true,
     })
-        .status(StatusCodes.OK)
+        .status(StatusCodes.CREATED)
         .end();
     return;
 });
