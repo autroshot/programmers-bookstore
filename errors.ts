@@ -1,7 +1,7 @@
 class AuthenticationError extends Error {
     constructor(message?: string) {
         super();
-        this.name = 'AuthenticationError';
+        this.name = this.constructor.name;
         this.message = message ?? '';
     }
 }
@@ -9,7 +9,7 @@ class AuthenticationError extends Error {
 class AuthorizationError extends Error {
     constructor(message?: string) {
         super();
-        this.name = 'AuthorizationError';
+        this.name = this.constructor.name;
         this.message = message ?? '';
     }
 }
@@ -17,7 +17,7 @@ class AuthorizationError extends Error {
 class ValidationError extends Error {
     constructor() {
         super();
-        this.name = 'ValidationError';
+        this.name = this.constructor.name;
     }
 }
 
@@ -26,7 +26,7 @@ class DBError extends Error {
 
     constructor(errno: number) {
         super();
-        this.name = 'DBError';
+        this.name = this.constructor.name;
         this.errorNo = errno;
     }
 }
