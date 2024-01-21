@@ -12,20 +12,29 @@ import expressAsyncHandler from 'express-async-handler';
 function createRequestHandlers(params: Params): RequestHandlers {
     const { validations, requestHandler } = params;
 
-    if (validations === undefined) return [expressAsyncHandler(requestHandler)];
-    return [
-        ...validations,
-        validationResultHandler,
-        expressAsyncHandler(requestHandler),
-    ];
+    const requestHandlers = [];
+    if (!Array.isArray(requestHandler)) {
+        requestHandlers.push(requestHandler);
+    } else {
+        requestHandlers.push(...requestHandler);
+    }
+
+    const wrappedRequestHandlers = requestHandlers.map((requestHandler) =>
+        expressAsyncHandler(requestHandler)
+    );
+
+    if (validations === undefined) return wrappedRequestHandlers;
+    return [...validations, validationResultHandler, ...wrappedRequestHandlers];
 }
 
 interface Params {
-    requestHandler: (
-        ...arg: Parameters<RequestHandler>
-    ) => void | Promise<void>;
+    requestHandler: Array<AsyncRequestHandler> | AsyncRequestHandler;
     validations?: RequestHandlers;
 }
+
+type AsyncRequestHandler = (
+    ...arg: Parameters<RequestHandler>
+) => void | Promise<void>;
 
 type RequestHandlers = Array<Array<RequestHandler> | RequestHandler>;
 
