@@ -4,15 +4,13 @@ import {
     findOne as findOneService,
 } from '@services/book';
 import { toDBPagination } from '@utils/pagination';
+import type { RequestHandlers } from '@utils/request-handler';
 import { createRequestHandlers } from '@utils/request-handler';
 import { isNew as isNewSchema } from '@validatorSchemas/book';
 import idSchema from '@validatorSchemas/id';
 import paginationSchema from '@validatorSchemas/pagination';
-import type { RequestHandler } from 'express';
 import { checkSchema, matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
-
-type RequestHandlers = Array<Array<RequestHandler> | RequestHandler>;
 
 const findMany: RequestHandlers = createRequestHandlers({
     validations: [

@@ -30,3 +30,4 @@ interface Params {
 type RequestHandlers = Array<Array<RequestHandler> | RequestHandler>;
 
 export { createRequestHandlers };
+export type { RequestHandlers };
