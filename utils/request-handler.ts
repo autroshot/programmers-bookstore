@@ -4,8 +4,8 @@ import expressAsyncHandler from 'express-async-handler';
 
 /**
  * 라우터에 사용될 요청 처리기 배열을 만든다.
- * @param requestHandler 가장 마지막에 실행될 요청 처리기 (비동기도 가능)
- * @param validations 먼저 실행될 유효성 검사들
+ * @param params.validations 먼저 실행될 유효성 검사들 (선택 사항)
+ * @param params.requestHandler 마지막에 실행될 요청 처리기 (비동기도 가능)
  * @returns 요청 처리기 배열
  */
 function createRequestHandlers({
