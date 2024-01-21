@@ -2,23 +2,16 @@ import 'dotenv/config';
 
 import {
     join as joinRequestHandlers,
-    update as updateController,
+    update as updateRequestHandlers,
 } from '@controllers/user';
 import errorHandlers from '@middlewares/error-request-handlers';
-import {
-    authenticate,
-    authorize,
-    validationResultHandler,
-} from '@middlewares/request-handlers';
 import authRouter from '@routers/auth';
 import bookRouter from '@routers/book';
 import categoryRouter from '@routers/category';
 import likeRouter from '@routers/like';
 import { getEnvValue } from '@utils/env';
-import { form as formSchema } from '@validatorSchemas/user';
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import { checkSchema } from 'express-validator';
 
 const app = express();
 const PORT = getEnvValue('SERVER_PORT');
@@ -35,14 +28,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/users', ...joinRequestHandlers);
-app.patch(
-    '/user',
-    authenticate,
-    checkSchema(formSchema, ['body']),
-    validationResultHandler,
-    authorize,
-    updateController
-);
+app.patch('/user', ...updateRequestHandlers);
 
 app.use('/auth', authRouter);
 app.use('/books', bookRouter);
