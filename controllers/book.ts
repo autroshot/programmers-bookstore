@@ -62,8 +62,8 @@ const findOne: RequestHandlers = createRequestHandlers({
  * @returns 요청 처리기 배열
  */
 function createRequestHandlers({
-    requestHandler,
     validations,
+    requestHandler,
 }: Params): RequestHandlers {
     if (validations === undefined) return [expressAsyncHandler(requestHandler)];
     return [
