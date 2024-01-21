@@ -1,32 +1,14 @@
 import {
-    basic as basicController,
-    email as emailController,
-    logout as logoutController,
+    basic as basicRequestHandlers,
+    email as emailRequestHandlers,
+    logout as logoutRequestHandlers,
 } from '@controllers/auth';
-import { validationResultHandler } from '@middlewares/request-handlers';
-import {
-    email as eamilParamSchema,
-    form as formSchema,
-} from '@validatorSchemas/user';
 import express from 'express';
-import { checkSchema } from 'express-validator';
 
 const router = express.Router();
 
-router.route('/').delete(logoutController);
-router
-    .route('/basic')
-    .post(
-        checkSchema(formSchema, ['body']),
-        validationResultHandler,
-        basicController
-    );
-router
-    .route('/email')
-    .post(
-        checkSchema({ email: eamilParamSchema }, ['body']),
-        validationResultHandler,
-        emailController
-    );
+router.route('/').delete(...logoutRequestHandlers);
+router.route('/basic').post(...basicRequestHandlers);
+router.route('/email').post(...emailRequestHandlers);
 
 export default router;
