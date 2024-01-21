@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import {
-    join as joinController,
+    join as joinRequestHandlers,
     update as updateController,
 } from '@controllers/user';
 import errorHandlers from '@middlewares/error-request-handlers';
@@ -34,12 +34,7 @@ app.get('/', (req, res) => {
     res.send('My Server');
 });
 
-app.post(
-    '/users',
-    checkSchema(formSchema, ['body']),
-    validationResultHandler,
-    joinController
-);
+app.post('/users', ...joinRequestHandlers);
 app.patch(
     '/user',
     authenticate,
