@@ -5,20 +5,30 @@ import {
 } from '@services/book';
 import { findMany as findManyCategoriesService } from '@services/category';
 import { toDBPagination } from '@utils/pagination';
-import type { RequestHandler } from 'express';
-import expressAsyncHandler from 'express-async-handler';
-import { matchedData } from 'express-validator';
+import type { RequestHandlers } from '@utils/request-handler';
+import { createRequestHandlers } from '@utils/request-handler';
+import { isNew as isNewSchema } from '@validatorSchemas/book';
+import idSchema from '@validatorSchemas/id';
+import paginationSchema from '@validatorSchemas/pagination';
+import { checkSchema, matchedData } from 'express-validator';
 import { StatusCodes } from 'http-status-codes';
 
-const findMany: RequestHandler = expressAsyncHandler(async (req, res) => {
-    const categories = await findManyCategoriesService();
+const findMany: RequestHandlers = createRequestHandlers({
+    requestHandler: async (req, res) => {
+        const categories = await findManyCategoriesService();
 
-    res.status(StatusCodes.OK).json(categories);
-    return;
+        res.status(StatusCodes.OK).json(categories);
+        return;
+    },
 });
 
-const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
-    async (req, res) => {
+const findManyBooksByCategory: RequestHandlers = createRequestHandlers({
+    validations: [
+        checkSchema(idSchema, ['params']),
+        checkSchema(paginationSchema, ['query']),
+        checkSchema(isNewSchema, ['query']),
+    ],
+    requestHandler: async (req, res) => {
         const {
             id: categoryId,
             page,
@@ -47,7 +57,7 @@ const findManyBooksByCategory: RequestHandler = expressAsyncHandler(
         const body = { books, totalPages: count };
         res.status(StatusCodes.OK).json(body);
         return;
-    }
-);
+    },
+});
 
 export { findMany, findManyBooksByCategory };
