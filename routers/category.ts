@@ -1,7 +1,7 @@
 import {
     findManyBooksByCategory as findManyBooksByCategoryController,
     findMany as findManyController,
-} from '@controllers/category';
+} from '@requestHandlers/category';
 import express from 'express';
 
 const router = express.Router();

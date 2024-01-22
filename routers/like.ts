@@ -2,7 +2,7 @@ import {
     create as createRequestHandlers,
     isExist as isExistRequestHandlers,
     remove as removeRequestHandlers,
-} from '@controllers/like';
+} from '@requestHandlers/like';
 import express from 'express';
 
 const router = express.Router({ mergeParams: true });

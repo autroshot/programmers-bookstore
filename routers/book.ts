@@ -1,7 +1,7 @@
 import {
     findMany as findManyRequestHandlers,
     findOne as findOneRequestHandlers,
-} from '@controllers/book';
+} from '@requestHandlers/book';
 import express from 'express';
 
 const router = express.Router();
