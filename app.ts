@@ -1,10 +1,10 @@
 import 'dotenv/config';
 
+import errorHandlers from '@middlewares/error-request-handlers';
 import {
     join as joinRequestHandlers,
     update as updateRequestHandlers,
-} from '@controllers/user';
-import errorHandlers from '@middlewares/error-request-handlers';
+} from '@requestHandlers/user';
 import authRouter from '@routers/auth';
 import bookRouter from '@routers/book';
 import categoryRouter from '@routers/category';

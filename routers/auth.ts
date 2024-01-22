@@ -2,7 +2,7 @@ import {
     basic as basicRequestHandlers,
     email as emailRequestHandlers,
     logout as logoutRequestHandlers,
-} from '@controllers/auth';
+} from '@requestHandlers/auth';
 import express from 'express';
 
 const router = express.Router();
