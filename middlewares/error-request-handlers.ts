@@ -62,6 +62,10 @@ const DBErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
                 res.status(StatusCodes.CONFLICT).end();
                 return;
             }
+            case 1452: {
+                res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
+                return;
+            }
             default: {
                 next(err);
                 return;
