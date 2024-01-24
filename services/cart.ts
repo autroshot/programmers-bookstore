@@ -42,6 +42,24 @@ const upsert = DBErrorWrapper(
     }
 );
 
+const remove = DBErrorWrapper(
+    async (userId: number, bookId: number): Promise<boolean> => {
+        const sql = `
+        DELETE FROM "cart_items" 
+        WHERE ("user_id" = :userId) AND ("book_id" = :bookId)
+        `;
+        const values = { userId, bookId };
+
+        const [resultSetHeader] = await pool.execute<ResultSetHeader>(
+            sql,
+            values
+        );
+
+        if (resultSetHeader.affectedRows === 0) return false;
+        return true;
+    }
+);
+
 interface CartItem extends RowDataPacket {
     id: number;
     title: string;
@@ -57,4 +75,4 @@ interface CreateForm {
     count: number;
 }
 
-export { findMany, upsert };
+export { findMany, remove, upsert };

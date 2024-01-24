@@ -1,6 +1,7 @@
 import { authenticate } from '@middlewares/request-handlers';
 import {
     findMany as findManyService,
+    remove as removeService,
     upsert as upsertService,
 } from '@services/cart';
 import type { RequestHandlers } from '@utils/request-handler';
@@ -48,15 +49,19 @@ const upsert: RequestHandlers = createRequestHandlers({
 
 const remove: RequestHandlers = createRequestHandlers({
     validations: [authenticate, checkSchema(idSchema, ['params'])],
-    requestHandler: (req, res) => {
+    requestHandler: async (req, res) => {
         const { id: bookId } = matchedData(req) as {
             id: number;
         };
         const userId = req.authenticatedId as number;
 
-        res.status(StatusCodes.NO_CONTENT).json(
-            `findMany userId: ${userId}, bookId: ${bookId}`
-        );
+        const isSuccess = await removeService(userId, bookId);
+
+        if (!isSuccess) {
+            res.status(StatusCodes.NOT_FOUND).end();
+            return;
+        }
+        res.status(StatusCodes.NO_CONTENT).end();
         return;
     },
 });
