@@ -1,5 +1,8 @@
 import { authenticate } from '@middlewares/request-handlers';
-import { findMany as findManyService } from '@services/cart';
+import {
+    findMany as findManyService,
+    upsert as upsertService,
+} from '@services/cart';
 import type { RequestHandlers } from '@utils/request-handler';
 import { createRequestHandlers } from '@utils/request-handler';
 import { count as countSchema } from '@validatorSchemas/cart';
@@ -25,16 +28,20 @@ const upsert: RequestHandlers = createRequestHandlers({
         checkSchema(idSchema, ['params']),
         checkSchema(countSchema, ['body']),
     ],
-    requestHandler: (req, res) => {
+    requestHandler: async (req, res) => {
         const { id: bookId, count } = matchedData(req) as {
             id: number;
             count: number;
         };
         const userId = req.authenticatedId as number;
 
-        res.status(StatusCodes.CREATED).json(
-            `findMany userId: ${userId}, bookId: ${bookId}, count: ${count}`
-        );
+        const isSuccess = await upsertService({ userId, bookId, count });
+
+        if (!isSuccess) {
+            res.status(StatusCodes.UNPROCESSABLE_ENTITY).end();
+            return;
+        }
+        res.status(StatusCodes.NO_CONTENT).end();
         return;
     },
 });
