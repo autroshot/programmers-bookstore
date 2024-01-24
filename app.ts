@@ -7,6 +7,7 @@ import {
 } from '@requestHandlers/user';
 import authRouter from '@routers/auth';
 import bookRouter from '@routers/book';
+import cartRouter from '@routers/cart';
 import categoryRouter from '@routers/category';
 import likeRouter from '@routers/like';
 import { getEnvValue } from '@utils/env';
@@ -34,5 +35,6 @@ app.use('/auth', authRouter);
 app.use('/books', bookRouter);
 app.use('/books/:id/likes', likeRouter);
 app.use('/categories', categoryRouter);
+app.use('/cart-items?', cartRouter);
 
 app.use(errorHandlers);
