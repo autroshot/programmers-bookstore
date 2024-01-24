@@ -1,4 +1,5 @@
 import { authenticate } from '@middlewares/request-handlers';
+import { findMany as findManyService } from '@services/cart';
 import type { RequestHandlers } from '@utils/request-handler';
 import { createRequestHandlers } from '@utils/request-handler';
 import { count as countSchema } from '@validatorSchemas/cart';
@@ -8,10 +9,12 @@ import { StatusCodes } from 'http-status-codes';
 
 const findMany: RequestHandlers = createRequestHandlers({
     validations: [authenticate],
-    requestHandler: (req, res) => {
+    requestHandler: async (req, res) => {
         const userId = req.authenticatedId as number;
 
-        res.status(StatusCodes.OK).json(`findMany userId: ${userId}`);
+        const cartItems = await findManyService(userId);
+
+        res.status(StatusCodes.OK).json(cartItems);
         return;
     },
 });
