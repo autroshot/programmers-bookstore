@@ -4,6 +4,7 @@ import {
     remove as removeService,
     upsert as upsertService,
 } from '@services/cart';
+import { getId } from '@utils/req';
 import type { RequestHandlers } from '@utils/request-handler';
 import { createRequestHandlers } from '@utils/request-handler';
 import { count as countSchema } from '@validatorSchemas/cart';
@@ -14,7 +15,7 @@ import { StatusCodes } from 'http-status-codes';
 const findMany: RequestHandlers = createRequestHandlers({
     validations: [authenticate],
     requestHandler: async (req, res) => {
-        const userId = req.authenticatedId as number;
+        const userId = getId(req);
 
         const cartItems = await findManyService(userId);
 
@@ -34,7 +35,7 @@ const upsert: RequestHandlers = createRequestHandlers({
             id: number;
             count: number;
         };
-        const userId = req.authenticatedId as number;
+        const userId = getId(req);
 
         const isSuccess = await upsertService({ userId, bookId, count });
 
@@ -53,7 +54,7 @@ const remove: RequestHandlers = createRequestHandlers({
         const { id: bookId } = matchedData(req) as {
             id: number;
         };
-        const userId = req.authenticatedId as number;
+        const userId = getId(req);
 
         const isSuccess = await removeService(userId, bookId);
 
