@@ -4,6 +4,7 @@ import {
     findOne as findOneLikeService,
     remove as removeLikeService,
 } from '@services/like';
+import { getId } from '@utils/req';
 import type { RequestHandlers } from '@utils/request-handler';
 import { createRequestHandlers } from '@utils/request-handler';
 import idSchema from '@validatorSchemas/id';
@@ -21,7 +22,7 @@ const isExist: RequestHandlers = createRequestHandlers({
         const { id: bookId } = matchedData(req) as {
             id: number;
         };
-        const userId = req.authenticatedId as number;
+        const userId = getId(req);
 
         const like = await findOneLikeService(userId, bookId);
         const isLikeExist = like !== undefined;
@@ -37,7 +38,7 @@ const create: RequestHandlers = createRequestHandlers({
         const { id: bookId } = matchedData(req) as {
             id: number;
         };
-        const userId = req.authenticatedId as number;
+        const userId = getId(req);
 
         await createLikeService(userId, bookId);
 
@@ -52,7 +53,7 @@ const remove: RequestHandlers = createRequestHandlers({
         const { id: bookId } = matchedData(req) as {
             id: number;
         };
-        const userId = req.authenticatedId as number;
+        const userId = getId(req);
 
         const isSuccess = await removeLikeService(userId, bookId);
 
