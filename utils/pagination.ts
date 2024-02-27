@@ -6,4 +6,8 @@ function toDBPagination(page: number, limit: number): Pagination {
     return { offset, limit };
 }
 
-export { toDBPagination };
+function calculateTotalPages(count: number, limit: number): number {
+    return Math.ceil(count / limit);
+}
+
+export { calculateTotalPages, toDBPagination };
