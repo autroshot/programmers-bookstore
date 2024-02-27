@@ -4,7 +4,7 @@ import {
     findOne as findOneBookService,
 } from '@services/book';
 import { findMany as findManyCategoriesService } from '@services/category';
-import { toDBPagination } from '@utils/pagination';
+import { calculateTotalPages, toDBPagination } from '@utils/pagination';
 import type { RequestHandlers } from '@utils/request-handler';
 import { createRequestHandlers } from '@utils/request-handler';
 import { isNew as isNewSchema } from '@validatorSchemas/book';
@@ -54,7 +54,8 @@ const findManyBooksByCategory: RequestHandlers = createRequestHandlers({
         );
         const count = await countService();
 
-        const body = { books, totalPages: count };
+        const totalPages = calculateTotalPages(count, limit);
+        const body = { books, totalPages };
         res.status(StatusCodes.OK).json(body);
         return;
     },

@@ -3,7 +3,7 @@ import {
     findMany as findManyService,
     findOne as findOneService,
 } from '@services/book';
-import { toDBPagination } from '@utils/pagination';
+import { calculateTotalPages, toDBPagination } from '@utils/pagination';
 import type { RequestHandlers } from '@utils/request-handler';
 import { createRequestHandlers } from '@utils/request-handler';
 import { isNew as isNewSchema } from '@validatorSchemas/book';
@@ -28,7 +28,8 @@ const findMany: RequestHandlers = createRequestHandlers({
         const books = await findManyService(DBPagination, isNew);
         const count = await countService();
 
-        const body = { books, totalPages: count };
+        const totalPages = calculateTotalPages(count, limit);
+        const body = { books, totalPages };
         res.status(StatusCodes.OK).json(body);
         return;
     },
