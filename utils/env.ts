@@ -9,6 +9,7 @@ function getEnvValue(key: key): string {
 
 type key =
     | 'SERVER_PORT'
+    | 'CORS_ORIGIN'
     | 'DB_HOST'
     | 'DB_PORT'
     | 'DB_USER'

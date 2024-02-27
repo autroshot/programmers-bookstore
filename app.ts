@@ -12,6 +12,7 @@ import categoryRouter from '@routers/category';
 import likeRouter from '@routers/like';
 import { getEnvValue } from '@utils/env';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import express from 'express';
 
 const app = express();
@@ -19,6 +20,12 @@ const PORT = getEnvValue('SERVER_PORT');
 
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+    cors({
+        origin: getEnvValue('CORS_ORIGIN'),
+        credentials: true,
+    })
+);
 
 app.listen(PORT, () => {
     console.log(`Server is running at http://localhost:${PORT}`);
