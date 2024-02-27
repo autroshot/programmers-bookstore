@@ -18,10 +18,14 @@ const findMany: RequestHandlers = createRequestHandlers({
         checkSchema(isNewSchema, ['query']),
     ],
     requestHandler: async (req, res) => {
-        const { page, limit, isNew } = matchedData(req) as {
+        const {
+            page,
+            limit,
+            'is-new': isNew,
+        } = matchedData(req) as {
             page: number;
             limit: number;
-            isNew: boolean;
+            'is-new': boolean;
         };
 
         const DBPagination = toDBPagination(page, limit);

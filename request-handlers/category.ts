@@ -33,12 +33,12 @@ const findManyBooksByCategory: RequestHandlers = createRequestHandlers({
             id: categoryId,
             page,
             limit,
-            isNew,
+            'is-new': isNew,
         } = matchedData(req) as {
             id: number;
             page: number;
             limit: number;
-            isNew: boolean;
+            'is-new': boolean;
         };
 
         const category = await findOneBookService(categoryId);
