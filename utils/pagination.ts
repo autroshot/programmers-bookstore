@@ -7,7 +7,9 @@ function toDBPagination(page: number, limit: number): Pagination {
 }
 
 function calculateTotalPages(count: number, limit: number): number {
-    return Math.ceil(count / limit);
+    const result = Math.ceil(count / limit);
+
+    return result <= 0 ? 1 : result;
 }
 
 export { calculateTotalPages, toDBPagination };
