@@ -30,7 +30,7 @@ const findMany: RequestHandlers = createRequestHandlers({
 
         const DBPagination = toDBPagination(page, limit);
         const books = await findManyService(DBPagination, isNew);
-        const count = await countService();
+        const count = await countService(isNew);
 
         const totalPages = calculateTotalPages(count, limit);
         const body = { books, totalPages };

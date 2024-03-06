@@ -52,7 +52,7 @@ const findManyBooksByCategory: RequestHandlers = createRequestHandlers({
             isNew,
             categoryId
         );
-        const count = await countService();
+        const count = await countService(isNew, categoryId);
 
         const totalPages = calculateTotalPages(count, limit);
         const body = { books, totalPages };
