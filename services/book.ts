@@ -123,15 +123,36 @@ const findOne = DBErrorWrapper(
     }
 );
 
-const count = DBErrorWrapper(async (): Promise<number> => {
-    const sql = 'SELECT COUNT(*) AS "count" FROM "books"';
+const count = DBErrorWrapper(
+    async (isNew: boolean, categoryId?: number): Promise<number> => {
+        const sqlBuilder = new SqlBuilder(`
+            SELECT COUNT(*) AS "count" 
+            FROM "books"
+        `);
 
-    const [counts] = await pool.execute<Array<Count>>(sql);
+        if (categoryId !== undefined) {
+            sqlBuilder.addCondition(`"books"."category_id" = :categoryId`, {
+                categoryId,
+            });
+        }
+        if (isNew) {
+            sqlBuilder.addCondition(
+                `"books"."publication_date" BETWEEN DATE_SUB(NOW(), INTERVAL 30 DAY) AND NOW()`
+            );
+        }
 
-    if (counts[0] === undefined)
-        throw Error('카운트 조회의 결과가 잘못되었습니다.');
-    return counts[0].count;
-});
+        const result = sqlBuilder.build();
+
+        const [counts] = await pool.execute<Array<Count>>(
+            result.sql,
+            result.values
+        );
+
+        if (counts[0] === undefined)
+            throw Error('카운트 조회의 결과가 잘못되었습니다.');
+        return counts[0].count;
+    }
+);
 
 interface SimpleBook extends RowDataPacket {
     id: number;
